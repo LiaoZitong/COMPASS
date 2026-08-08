@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "python": {
+    "version": "3.11.9",
+    "implementation": "CPython",
+    "platform": "Windows native",
+    "package_lock": "manifests/python_requirements_lock.txt"
+  },
+  "random_settings": {
+    "pipeline_default_seed": 20260622,
+    "figure_2_feasible_panel_seed": 20260701,
+    "figure_2_feasible_panel_draws_per_sampled_design_and_target": 2000,
+    "figure_3_random_panel_seed": 20260622,
+    "figure_3_random_panels": 500,
+    "profile_likelihood_draws": 2000,
+    "profile_likelihood_seed": 20260622,
+    "mnar_seed": 20260622
+  },
+  "scope": "Records the environment and stochastic settings used by the current analysis release; it is not a claim that third-party acquisition and the complete production workflow are included in the shared core-code package."
+}

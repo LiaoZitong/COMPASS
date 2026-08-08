@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "analysis_version": "v16.5",
+  "data_freeze_date": "2026-08-02",
+  "seed": 20260622,
+  "python_runtime_used_for_local_validation": "3.11.9",
+  "source_version_record": "release/source_manifest_sha256.csv",
+  "key_output_record": "release/key_output_manifest_sha256.csv",
+  "source_workspace_git_history_available": false,
+  "site_export_identifier": "24d0c3c01efe1caae7eca51e70275a750bffa6ec85b8a3e200788637b85f39de",
+  "site_version": "0.1.0-draft",
+  "data_distribution": "Large public and provider-hosted inputs, including EPA ECOTOX, are obtained from their official services and are not mirrored in the compact GitHub code package.",
+  "local_validation_commands": [
+    "python -m unittest discover -s tests -v",
+    "python code/run_analysis.py --mode full --dry-run --seed 20260622",
+    "python code/validate_results.py --profile analysis",
+    "python code/audit_release.py --profile private"
+  ]
+}

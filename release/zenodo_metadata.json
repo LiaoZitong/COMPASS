@@ -1,0 +1,26 @@
+{
+  "upload_type": "software",
+  "title": "COMPASS core reproducibility code",
+  "version": "0.1.0-draft",
+  "publication_date": "2026-08-08",
+  "description": "Core code for the frozen v16.5 COMPASS aquatic sentinel-panel analysis. Large public and provider-hosted inputs, including EPA ECOTOX, are obtained from their official services and are not mirrored in the compact GitHub code package.",
+  "creators": [
+    {"name": "Liao, Zitong"},
+    {"name": "Chen, Zhuo"},
+    {"name": "Lu, Yun"},
+    {"name": "Wei, Dongbin"},
+    {"name": "Wu, Yinhu"},
+    {"name": "Qi, Yarong"},
+    {"name": "Wang, Yuming"},
+    {"name": "Ding, Ren"},
+    {"name": "Hu, Hong-Ying"}
+  ],
+  "keywords": [
+    "aquatic ecotoxicology",
+    "sentinel species",
+    "measured-tail probability",
+    "species sensitivity distribution",
+    "reproducible research"
+  ],
+  "notes": "Draft metadata. Add the author-approved license and real repository identifier before deposition."
+}

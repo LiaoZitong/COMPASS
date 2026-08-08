@@ -1,0 +1,11 @@
+name: bhbt-v16
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy>=2.1,<3
+  - pandas>=2.2,<3
+  - scipy>=1.14,<2
+  - matplotlib>=3.9,<4
+  - scikit-learn>=1.5,<2
+  - pyshp>=3.0,<4

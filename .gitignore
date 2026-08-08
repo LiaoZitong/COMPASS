@@ -1,0 +1,53 @@
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Real inputs and analysis outputs are intentionally not distributed
+data/intermediate/
+data/raw/
+data/external/*
+!data/external/README.md
+data/processed/*
+!data/processed/README.md
+data/demo/*
+!data/demo/README.md
+results/
+logs/
+manifests/runtime_*
+outputs/figures/
+outputs/site_data/
+outputs/validation_*.json
+outputs/*.json
+
+# Generated site and release archives
+site_data/
+public_or_dist/
+*.zip
+*.tar.gz
+*.7z
+
+# Large and office-format files
+*.gz
+*.npz
+*.xlsx
+*.xls
+*.docx
+*.pptx
+*.pdf
+*.tif
+*.tiff
+
+# Local configuration, credentials and logs
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db

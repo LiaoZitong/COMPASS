@@ -1,0 +1,456 @@
+{
+  "schema_version": 1,
+  "analysis_version": "v16.5",
+  "profile": "analysis",
+  "checks": 41,
+  "passed": 41,
+  "failed": 0,
+  "all_passed": true,
+  "details": [
+    {
+      "name": "national_top10",
+      "passed": true,
+      "observed": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus lacustris",
+        "Gammarus fasciatus"
+      ],
+      "expected": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus lacustris",
+        "Gammarus fasciatus"
+      ],
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/national_panel_sequences.csv"
+    },
+    {
+      "name": "national_top5",
+      "passed": true,
+      "observed": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca"
+      ],
+      "expected": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca"
+      ],
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/national_panel_sequences.csv"
+    },
+    {
+      "name": "national_top20",
+      "passed": true,
+      "observed": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus lacustris",
+        "Gammarus fasciatus",
+        "Moina macrocopa",
+        "Megalonaias nervosa",
+        "Gammarus pseudolimnaeus",
+        "Gammarus pulex",
+        "Margaritifera falcata",
+        "Ceriodaphnia reticulata",
+        "Amblema plicata",
+        "Paratya australiensis",
+        "Dugesia japonica",
+        "Echinogammarus tibaldii"
+      ],
+      "expected": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus lacustris",
+        "Gammarus fasciatus",
+        "Moina macrocopa",
+        "Megalonaias nervosa",
+        "Gammarus pseudolimnaeus",
+        "Gammarus pulex",
+        "Margaritifera falcata",
+        "Ceriodaphnia reticulata",
+        "Amblema plicata",
+        "Paratya australiensis",
+        "Dugesia japonica",
+        "Echinogammarus tibaldii"
+      ],
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/national_panel_sequences.csv"
+    },
+    {
+      "name": "fixed_top5_capture_0.95",
+      "passed": true,
+      "observed": 0.3055373085768699,
+      "expected": 0.30553730857687006,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_national_top5_cross_target_audit.csv"
+    },
+    {
+      "name": "fixed_top5_capture_0.9",
+      "passed": true,
+      "observed": 0.5802658236765963,
+      "expected": 0.5802658236765964,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_national_top5_cross_target_audit.csv"
+    },
+    {
+      "name": "fixed_top5_capture_0.8",
+      "passed": true,
+      "observed": 0.8765105591257395,
+      "expected": 0.8765105591257389,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_national_top5_cross_target_audit.csv"
+    },
+    {
+      "name": "sequence_basis_locked",
+      "passed": true,
+      "observed": [
+        0.95
+      ],
+      "expected": [
+        0.95
+      ],
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.95_k1",
+      "passed": true,
+      "observed": 0.0865541821674828,
+      "expected": 0.08655418216748288,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.95_k5",
+      "passed": true,
+      "observed": 0.3055373085768699,
+      "expected": 0.30553730857686995,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.95_k10",
+      "passed": true,
+      "observed": 0.4623144347156605,
+      "expected": 0.4623144347156605,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.95_k20",
+      "passed": true,
+      "observed": 0.6286480969941605,
+      "expected": 0.6286480969941605,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.9_k1",
+      "passed": true,
+      "observed": 0.20648086308992,
+      "expected": 0.20648086308992,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.9_k5",
+      "passed": true,
+      "observed": 0.5802658236765963,
+      "expected": 0.5802658236765963,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.9_k10",
+      "passed": true,
+      "observed": 0.7637445158185475,
+      "expected": 0.7637445158185475,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.9_k20",
+      "passed": true,
+      "observed": 0.8880450267210949,
+      "expected": 0.8880450267210949,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.8_k1",
+      "passed": true,
+      "observed": 0.4293602259973165,
+      "expected": 0.4293602259973165,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.8_k5",
+      "passed": true,
+      "observed": 0.8765105591257395,
+      "expected": 0.8765105591257395,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.8_k10",
+      "passed": true,
+      "observed": 0.9690738548596224,
+      "expected": 0.9690738548596224,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "coverage_x0.8_k20",
+      "passed": true,
+      "observed": 0.9942475135613652,
+      "expected": 0.9942475135613652,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/panels/fixed_x95_sequence_cross_target_curves.csv"
+    },
+    {
+      "name": "top5_apical_n",
+      "passed": true,
+      "observed": 115,
+      "expected": 115,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/warning_hc5_bridge/top5_panel_apical_hc5_positive_control_metrics.csv"
+    },
+    {
+      "name": "top5_apical_spearman",
+      "passed": true,
+      "observed": 0.8472895131381678,
+      "expected": 0.8472895131381678,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/warning_hc5_bridge/top5_panel_apical_hc5_positive_control_metrics.csv"
+    },
+    {
+      "name": "warning_n",
+      "passed": true,
+      "observed": 70,
+      "expected": 70,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/warning_hc5_bridge/top5_panel_warning_hc5_metrics.csv"
+    },
+    {
+      "name": "warning_spearman_r",
+      "passed": true,
+      "observed": 0.7811565042428483,
+      "expected": 0.7811565042428483,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/warning_hc5_bridge/top5_panel_warning_hc5_metrics.csv"
+    },
+    {
+      "name": "warning_median_ratio",
+      "passed": true,
+      "observed": 2.330823466431367,
+      "expected": 2.330823466431367,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/warning_hc5_bridge/top5_panel_warning_hc5_metrics.csv"
+    },
+    {
+      "name": "regional_supported_states",
+      "passed": true,
+      "observed": 32,
+      "expected": 32,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/state_panels/state_x95_k5_soft_local_comparison.csv"
+    },
+    {
+      "name": "regional_mean_localized_expected_capture",
+      "passed": true,
+      "observed": 0.1380271077305893,
+      "expected": 0.1380271077305893,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/state_panels/state_x95_k5_soft_local_comparison.csv"
+    },
+    {
+      "name": "regional_mean_national_expected_capture",
+      "passed": true,
+      "observed": 0.06815379192467666,
+      "expected": 0.06815379192467666,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/state_panels/state_x95_k5_soft_local_comparison.csv"
+    },
+    {
+      "name": "regional_mean_gain_percentage_points",
+      "passed": true,
+      "observed": 6.987331580591262,
+      "expected": 6.987331580591262,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/state_panels/state_x95_k5_soft_local_comparison.csv"
+    },
+    {
+      "name": "regional_max_gain_state",
+      "passed": true,
+      "observed": "CT",
+      "expected": "CT",
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/state_panels/state_x95_k5_soft_local_comparison.csv"
+    },
+    {
+      "name": "regional_max_gain_value",
+      "passed": true,
+      "observed": 9.87484993513311,
+      "expected": 9.87484993513311,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/state_panels/state_x95_k5_soft_local_comparison.csv"
+    },
+    {
+      "name": "regional_unsupported_states",
+      "passed": true,
+      "observed": {
+        "PA": 1,
+        "TN": 1,
+        "WV": 1
+      },
+      "expected": {
+        "PA": 1,
+        "TN": 1,
+        "WV": 1
+      },
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/results/weights/state_priority_chemical_weights.csv.gz"
+    },
+    {
+      "name": "comparator_epa_wet_x95",
+      "passed": true,
+      "observed": 0.3026239730026833,
+      "expected": 0.3026239730026833,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/manuscript_plot/figure_02/figure_02b_feasible_combination_summary.csv"
+    },
+    {
+      "name": "comparator_random_x95_median",
+      "passed": true,
+      "observed": 0.1227328855673509,
+      "expected": 0.1227328855673509,
+      "source": "E:/博士/青年基金/项目计划/论文/指示生物/BHBT/manuscript_plot/figure_02/figure_02b_feasible_combination_summary.csv"
+    },
+    {
+      "name": "site_top10",
+      "passed": true,
+      "observed": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus lacustris",
+        "Gammarus fasciatus"
+      ],
+      "expected": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus lacustris",
+        "Gammarus fasciatus"
+      ],
+      "source": "site_data/national_sequence.json"
+    },
+    {
+      "name": "site_top20",
+      "passed": true,
+      "observed": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus lacustris",
+        "Gammarus fasciatus",
+        "Moina macrocopa",
+        "Megalonaias nervosa",
+        "Gammarus pseudolimnaeus",
+        "Gammarus pulex",
+        "Margaritifera falcata",
+        "Ceriodaphnia reticulata",
+        "Amblema plicata",
+        "Paratya australiensis",
+        "Dugesia japonica",
+        "Echinogammarus tibaldii"
+      ],
+      "expected": [
+        "Gastrophryne carolinensis",
+        "Daphnia ambigua",
+        "Neocloeon triangulifer",
+        "Daphnia magna",
+        "Hyalella azteca",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus lacustris",
+        "Gammarus fasciatus",
+        "Moina macrocopa",
+        "Megalonaias nervosa",
+        "Gammarus pseudolimnaeus",
+        "Gammarus pulex",
+        "Margaritifera falcata",
+        "Ceriodaphnia reticulata",
+        "Amblema plicata",
+        "Paratya australiensis",
+        "Dugesia japonica",
+        "Echinogammarus tibaldii"
+      ],
+      "source": "site_data/national_sequence.json"
+    },
+    {
+      "name": "site_complete_national_order",
+      "passed": true,
+      "observed": {
+        "rows": 2144,
+        "unique": 2144
+      },
+      "expected": {
+        "rows": 2144,
+        "unique": 2144
+      },
+      "source": "site_data/national_sequence.json"
+    },
+    {
+      "name": "site_capture_0.95",
+      "passed": true,
+      "observed": 0.3055373085768699,
+      "expected": 0.30553730857687006,
+      "source": "site_data/coverage.json"
+    },
+    {
+      "name": "site_capture_0.9",
+      "passed": true,
+      "observed": 0.5802658236765963,
+      "expected": 0.5802658236765964,
+      "source": "site_data/coverage.json"
+    },
+    {
+      "name": "site_capture_0.8",
+      "passed": true,
+      "observed": 0.8765105591257395,
+      "expected": 0.8765105591257389,
+      "source": "site_data/coverage.json"
+    },
+    {
+      "name": "site_regional_count",
+      "passed": true,
+      "observed": 32,
+      "expected": 32,
+      "source": "site_data/regional.json"
+    },
+    {
+      "name": "site_analysis_version",
+      "passed": true,
+      "observed": "v16.5",
+      "expected": "v16.5",
+      "source": "site_data/metadata.json"
+    }
+  ]
+}

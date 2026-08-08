@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "analysis_version": "v16.5",
+  "tolerance": 1e-9,
+  "national_top10": [
+    "Gastrophryne carolinensis",
+    "Daphnia ambigua",
+    "Neocloeon triangulifer",
+    "Daphnia magna",
+    "Hyalella azteca",
+    "Ceriodaphnia dubia",
+    "Daphnia pulex",
+    "Daphnia carinata",
+    "Gammarus lacustris",
+    "Gammarus fasciatus"
+  ],
+  "national_top20": [
+    "Gastrophryne carolinensis",
+    "Daphnia ambigua",
+    "Neocloeon triangulifer",
+    "Daphnia magna",
+    "Hyalella azteca",
+    "Ceriodaphnia dubia",
+    "Daphnia pulex",
+    "Daphnia carinata",
+    "Gammarus lacustris",
+    "Gammarus fasciatus",
+    "Moina macrocopa",
+    "Megalonaias nervosa",
+    "Gammarus pseudolimnaeus",
+    "Gammarus pulex",
+    "Margaritifera falcata",
+    "Ceriodaphnia reticulata",
+    "Amblema plicata",
+    "Paratya australiensis",
+    "Dugesia japonica",
+    "Echinogammarus tibaldii"
+  ],
+  "fixed_top5_expected_capture": {
+    "0.95": 0.30553730857687006,
+    "0.9": 0.5802658236765964,
+    "0.8": 0.8765105591257389
+  },
+  "panel_size_checkpoints": [
+    {"evaluation_target": 0.95, "panel_size": 1, "expected_capture": 0.08655418216748288},
+    {"evaluation_target": 0.95, "panel_size": 5, "expected_capture": 0.30553730857686995},
+    {"evaluation_target": 0.95, "panel_size": 10, "expected_capture": 0.4623144347156605},
+    {"evaluation_target": 0.95, "panel_size": 20, "expected_capture": 0.6286480969941605},
+    {"evaluation_target": 0.9, "panel_size": 1, "expected_capture": 0.20648086308992},
+    {"evaluation_target": 0.9, "panel_size": 5, "expected_capture": 0.5802658236765963},
+    {"evaluation_target": 0.9, "panel_size": 10, "expected_capture": 0.7637445158185475},
+    {"evaluation_target": 0.9, "panel_size": 20, "expected_capture": 0.8880450267210949},
+    {"evaluation_target": 0.8, "panel_size": 1, "expected_capture": 0.4293602259973165},
+    {"evaluation_target": 0.8, "panel_size": 5, "expected_capture": 0.8765105591257395},
+    {"evaluation_target": 0.8, "panel_size": 10, "expected_capture": 0.9690738548596224},
+    {"evaluation_target": 0.8, "panel_size": 20, "expected_capture": 0.9942475135613652}
+  ],
+  "comparators": {
+    "epa_wet_fixed_k8_expected_capture_0.95": 0.3026239730026833,
+    "fixed_top5_margin_over_epa_wet_0.95": 0.002913335574186604,
+    "random_k5_median_expected_capture_0.95": 0.1227328855673509
+  },
+  "top5_apical": {
+    "reference": "reference_hc5_typical_log10",
+    "n": 115,
+    "spearman_r": 0.8472895131381678
+  },
+  "warning": {
+    "reference": "reference_hc5_typical_log10",
+    "n": 70,
+    "spearman_r": 0.7811565042428483,
+    "median_ratio": 2.330823466431367
+  },
+  "regional": {
+    "supported_states": 32,
+    "mean_localized_expected_capture": 0.1380271077305893,
+    "mean_national_expected_capture": 0.06815379192467666,
+    "mean_gain_percentage_points": 6.987331580591262,
+    "max_gain_state": "CT",
+    "max_gain_percentage_points": 9.87484993513311,
+    "unsupported_states": {
+      "PA": 1,
+      "TN": 1,
+      "WV": 1
+    }
+  }
+}

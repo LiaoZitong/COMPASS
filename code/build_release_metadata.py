@@ -239,9 +239,13 @@ def build_run_metadata(package_root: Path, site_root: Path | None) -> None:
 
 def should_checksum(relative: Path) -> bool:
     parts = set(relative.parts)
-    if ".git" in parts or "__pycache__" in parts:
+    if parts.intersection({".git", "__pycache__", "node_modules", ".next", "dist", ".wrangler"}):
+        return False
+    if len(relative.parts) >= 2 and relative.parts[:2] == ("public", "explorer"):
         return False
     if relative.suffix.lower() in {".pyc", ".pyo"}:
+        return False
+    if relative.suffix.lower() == ".log":
         return False
     if relative.as_posix() == "release/checksums.sha256":
         return False

@@ -6,13 +6,17 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import pandas as pd
+import shapefile
 import tomllib
+from numpy.polynomial.hermite import hermgauss
+from scipy.stats import norm
 
 
 MANUSCRIPT_TITLE = (
@@ -55,7 +59,29 @@ SOURCE_FILES = [
     "results/warning_hc5_bridge/top5_panel_warning_hc5_metrics.csv",
     "results/probability/species_chemical_tail_probability_x95.npz",
     "results/weights/national_priority_chemicals.csv",
+    "results/probability/species_chemical_tail_probability_x90.npz",
+    "results/probability/species_chemical_tail_probability_x80.npz",
+    "results/panels/panel_probability_manifest.json",
+    "data/external/cb_2024_us_state_500k.zip",
 ]
+
+FULL_SEQUENCE_TARGETS = (
+    (0.95, "lower-5%"),
+    (0.90, "lower-10%"),
+    (0.80, "lower-20%"),
+)
+STATE_MAP_VIEWBOX = (0, 0, 960, 600)
+SMALL_STATE_CALLOUTS = {
+    "VT": (925.0, 62.0),
+    "NH": (925.0, 88.0),
+    "MA": (925.0, 114.0),
+    "RI": (925.0, 140.0),
+    "CT": (925.0, 166.0),
+    "NJ": (925.0, 192.0),
+    "DE": (925.0, 218.0),
+    "MD": (925.0, 244.0),
+    "DC": (925.0, 270.0),
+}
 
 
 def parse_args() -> argparse.Namespace:
@@ -210,13 +236,254 @@ def build_complete_national_order(
     return complete
 
 
+def target_suffix(target: float) -> str:
+    return f"{int(round(target * 100)):02d}"
+
+
+def target_key(target: float) -> str:
+    return f"{target:.2f}".rstrip("0").rstrip(".")
+
+
+def build_full_cross_target_capture(
+    root: Path,
+    sequence: pd.DataFrame,
+) -> dict[str, np.ndarray]:
+    """Evaluate every fixed-sequence prefix with the frozen Gaussian-copula model.
+
+    The one-factor copula integral factorizes conditional on each Hermite node.  Keeping
+    the node-by-chemical no-event product lets all 2,144 prefixes be evaluated in one
+    pass per target, while reproducing the published rank-1--20 calculation.
+    """
+
+    priority = pd.read_csv(root / "results/weights/national_priority_chemicals.csv")
+    priority["DTXSID"] = priority["DTXSID"].astype(str)
+    manifest = json.loads(
+        (root / "results/panels/panel_probability_manifest.json").read_text(encoding="utf-8")
+    )
+    ordered_names = sequence.sort_values("rank")["latin_name"].astype(str).tolist()
+    nodes, quadrature_weights = hermgauss(16)
+    nodes = np.sqrt(2.0) * nodes
+    quadrature_weights = quadrature_weights / np.sqrt(np.pi)
+    curves: dict[str, np.ndarray] = {}
+
+    for target, label in FULL_SEQUENCE_TARGETS:
+        probability_path = (
+            root
+            / f"results/probability/species_chemical_tail_probability_x{target_suffix(target)}.npz"
+        )
+        with np.load(probability_path, allow_pickle=True) as probability:
+            matrix = probability["p"].astype(float)
+            species = probability["species"].astype(str)
+            chemicals = probability["chemicals"].astype(str)
+        species_index = {name: index for index, name in enumerate(species)}
+        chemical_index = {name: index for index, name in enumerate(chemicals)}
+        missing_species = [name for name in ordered_names if name not in species_index]
+        if missing_species:
+            raise ValueError(
+                f"Complete x=0.95 sequence is absent from x={target:g} probability matrix: "
+                f"{missing_species[:5]}"
+            )
+
+        target_weights = priority[
+            priority["DTXSID"].isin(chemical_index)
+            & priority["national_weight"].astype(float).gt(0)
+        ].copy()
+        if len(target_weights) != 362:
+            raise ValueError(
+                f"Expected 362 national priority chemicals at x={target:g}, "
+                f"found {len(target_weights)}"
+            )
+        weights = target_weights["national_weight"].to_numpy(float)
+        weights /= weights.sum()
+        chemical_columns = np.asarray(
+            [chemical_index[name] for name in target_weights["DTXSID"]], dtype=int
+        )
+        ordered_indices = np.asarray([species_index[name] for name in ordered_names], dtype=int)
+        ordered_matrix = np.clip(matrix[np.ix_(ordered_indices, chemical_columns)], 1e-8, 1 - 1e-8)
+        thresholds = norm.ppf(1.0 - ordered_matrix)
+        rho = float(manifest["dependence_audit_by_x"][target_key(target)]["rho_working"])
+        shared_sd = math.sqrt(max(rho, 0.0))
+        residual_sd = math.sqrt(max(1.0 - rho, 1e-8))
+        no_event_by_node = np.ones((len(nodes), len(chemical_columns)), dtype=float)
+        captures = np.empty(len(ordered_names), dtype=float)
+
+        for rank_index, threshold in enumerate(thresholds):
+            conditional_no_event = norm.cdf(
+                (threshold[None, :] - shared_sd * nodes[:, None]) / residual_sd
+            )
+            no_event_by_node *= conditional_no_event
+            marginal_no_event = quadrature_weights @ no_event_by_node
+            joint_capture = np.clip(1.0 - marginal_no_event, 0.0, 1.0)
+            captures[rank_index] = float(weights @ joint_capture)
+
+        if np.any(np.diff(captures) < -1e-12):
+            raise ValueError(f"Cumulative expected capture is not monotone at x={target:g}")
+        curves[label] = captures
+    return curves
+
+
+def validate_frozen_capture_prefixes(
+    full_capture: dict[str, np.ndarray],
+    frozen_curves: pd.DataFrame,
+) -> None:
+    """Require the new full curves to reproduce every frozen rank-1--20 value."""
+
+    differences: list[float] = []
+    for row in frozen_curves.itertuples(index=False):
+        label = str(row.measured_tail)
+        rank = int(row.panel_size)
+        observed = float(full_capture[label][rank - 1])
+        differences.append(abs(observed - float(row.expected_capture)))
+    maximum = max(differences, default=float("inf"))
+    if len(differences) != 60 or maximum > 1e-10:
+        raise ValueError(
+            "Full cumulative-capture curves do not reproduce the 60 frozen prefix values: "
+            f"rows={len(differences)}, max_abs_difference={maximum:.3e}"
+        )
+
+
+def polygon_area_centroid(coords: np.ndarray) -> tuple[float, float, float]:
+    points = np.asarray(coords, dtype=float)
+    if len(points) < 3:
+        return 0.0, float("nan"), float("nan")
+    if not np.allclose(points[0], points[-1]):
+        points = np.vstack([points, points[0]])
+    x = points[:, 0]
+    y = points[:, 1]
+    cross = x[:-1] * y[1:] - x[1:] * y[:-1]
+    signed_area = 0.5 * float(cross.sum())
+    if abs(signed_area) < 1e-9:
+        return 0.0, float(np.nanmean(x[:-1])), float(np.nanmean(y[:-1]))
+    centroid_x = float(((x[:-1] + x[1:]) * cross).sum() / (6.0 * signed_area))
+    centroid_y = float(((y[:-1] + y[1:]) * cross).sum() / (6.0 * signed_area))
+    return abs(signed_area), centroid_x, centroid_y
+
+
+def simplify_ring(coords: np.ndarray, tolerance: float) -> np.ndarray:
+    """Simplify a closed boundary ring with iterative Ramer-Douglas-Peucker."""
+
+    points = np.asarray(coords, dtype=float)
+    if len(points) <= 4:
+        return points
+    closed = np.allclose(points[0], points[-1])
+    core = points[:-1] if closed else points
+    if len(core) <= 3:
+        return points
+    keep = np.zeros(len(core), dtype=bool)
+    keep[0] = True
+    keep[-1] = True
+    stack = [(0, len(core) - 1)]
+    while stack:
+        start, end = stack.pop()
+        if end <= start + 1:
+            continue
+        segment = core[end] - core[start]
+        segment_length = float(np.linalg.norm(segment))
+        candidates = core[start + 1 : end]
+        if segment_length <= 1e-12:
+            distances = np.linalg.norm(candidates - core[start], axis=1)
+        else:
+            offsets = candidates - core[start]
+            distances = np.abs(segment[0] * offsets[:, 1] - segment[1] * offsets[:, 0]) / segment_length
+        relative = int(np.argmax(distances))
+        if float(distances[relative]) > tolerance:
+            index = start + 1 + relative
+            keep[index] = True
+            stack.append((start, index))
+            stack.append((index, end))
+    simplified = core[keep]
+    if len(simplified) < 3:
+        simplified = core[[0, len(core) // 2, -1]]
+    return np.vstack([simplified, simplified[0]]) if closed else simplified
+
+
+def project_state_ring(state_code: str, coords: np.ndarray) -> np.ndarray:
+    points = np.asarray(coords, dtype=float).copy()
+    longitude = points[:, 0]
+    latitude = points[:, 1]
+    if state_code == "AK":
+        longitude = np.where(longitude > 0, longitude - 360.0, longitude)
+        x = 34.0 + (longitude + 188.0) * 3.65
+        y = 574.0 - (latitude - 51.0) * 7.35
+    elif state_code == "HI":
+        x = 305.0 + (longitude + 161.0) * 22.0
+        y = 578.0 - (latitude - 18.0) * 19.0
+    else:
+        x = 42.0 + (longitude + 125.0) * 14.2
+        y = 414.0 - (latitude - 24.0) * 14.8
+    return np.column_stack([x, y])
+
+
+def build_state_map(boundary_zip: Path) -> dict[str, Any]:
+    """Create a compact, self-contained SVG path map from the Census state boundary file."""
+
+    reader = shapefile.Reader(str(boundary_zip))
+    state_parts: dict[str, list[np.ndarray]] = {code: [] for code in STATE_NAMES}
+    for shape_record in reader.shapeRecords():
+        properties = shape_record.record.as_dict()
+        state_code = str(properties.get("STUSPS", ""))
+        if state_code not in state_parts:
+            continue
+        points = np.asarray(shape_record.shape.points, dtype=float)
+        breaks = list(shape_record.shape.parts) + [len(points)]
+        tolerance = 0.05 if state_code == "AK" else 0.02
+        for start, end in zip(breaks[:-1], breaks[1:]):
+            ring = points[start:end]
+            if len(ring) < 3:
+                continue
+            if state_code == "AK":
+                ring = ring.copy()
+                ring[:, 0] = np.where(ring[:, 0] > 0, ring[:, 0] - 360.0, ring[:, 0])
+            simplified = simplify_ring(ring, tolerance)
+            state_parts[state_code].append(project_state_ring(state_code, simplified))
+
+    missing = [code for code, parts in state_parts.items() if not parts]
+    if missing:
+        raise ValueError(f"Census boundary file is missing state geometries: {missing}")
+
+    states: list[dict[str, Any]] = []
+    for state_code, parts in sorted(state_parts.items(), key=lambda item: STATE_NAMES[item[0]]):
+        path_parts: list[str] = []
+        largest = (0.0, float("nan"), float("nan"))
+        for ring in parts:
+            commands = [f"M{ring[0, 0]:.1f},{ring[0, 1]:.1f}"]
+            commands.extend(f"L{x:.1f},{y:.1f}" for x, y in ring[1:])
+            commands.append("Z")
+            path_parts.append("".join(commands))
+            area, centroid_x, centroid_y = polygon_area_centroid(ring)
+            if area > largest[0]:
+                largest = (area, centroid_x, centroid_y)
+        centroid_x, centroid_y = largest[1], largest[2]
+        label_x, label_y = SMALL_STATE_CALLOUTS.get(
+            state_code, (round(centroid_x, 1), round(centroid_y, 1))
+        )
+        states.append(
+            {
+                "state_code": state_code,
+                "state_name": STATE_NAMES[state_code],
+                "path": "".join(path_parts),
+                "centroid_x": round(centroid_x, 1),
+                "centroid_y": round(centroid_y, 1),
+                "label_x": label_x,
+                "label_y": label_y,
+                "callout": state_code in SMALL_STATE_CALLOUTS,
+            }
+        )
+    return {
+        "view_box": list(STATE_MAP_VIEWBOX),
+        "source": "U.S. Census Bureau 2024 1:500,000 cartographic state boundaries",
+        "source_url": "https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_us_state_500k.zip",
+        "states": states,
+    }
+
+
 def build_national(
     sequence: pd.DataFrame,
     candidate: pd.DataFrame,
     warning: pd.DataFrame,
     contributions: pd.DataFrame,
     life: pd.DataFrame,
-    curves: pd.DataFrame,
+    full_capture: dict[str, np.ndarray],
 ) -> list[dict[str, Any]]:
     candidate_by_name = candidate.set_index("latin_name")
     warning_by_name = warning.set_index("latin_name")
@@ -224,10 +491,6 @@ def build_national(
     top5_contrib = contributions[
         contributions["method"].eq("data_driven") & contributions["k"].eq(5)
     ].drop_duplicates("latin_name").set_index("latin_name")
-    curve_map = {
-        (round(float(row.evaluation_target), 2), int(row.panel_size)): float(row.expected_capture)
-        for row in curves.itertuples(index=False)
-    }
     records: list[dict[str, Any]] = []
     for row in sequence.itertuples(index=False):
         rank = int(row.rank)
@@ -236,13 +499,12 @@ def build_national(
         warning_row = warning_by_name.loc[name] if name in warning_by_name.index else None
         life_row = life_by_name.loc[name] if name in life_by_name.index else None
         contribution = top5_contrib.loc[name] if name in top5_contrib.index else None
-        lower5 = curve_map.get((0.95, rank))
-        previous_lower5 = 0.0 if rank == 1 else curve_map.get((0.95, rank - 1))
-        validated_incremental = (
-            None
-            if lower5 is None or previous_lower5 is None
-            else float(lower5 - previous_lower5)
-        )
+        cumulative_capture = {
+            label: float(values[rank - 1]) for label, values in full_capture.items()
+        }
+        lower5 = cumulative_capture["lower-5%"]
+        previous_lower5 = 0.0 if rank == 1 else float(full_capture["lower-5%"][rank - 2])
+        incremental_capture = float(lower5 - previous_lower5)
         records.append(
             {
                 "national_rank": rank,
@@ -264,17 +526,41 @@ def build_national(
                 "official_or_common_method_species": bool_value(meta.get("official_or_common_method_species", False)),
                 "selection_incremental_gain_lower5": float(row.selection_incremental_gain_lower5),
                 "selection_objective_cumulative_lower5": float(row.selection_objective_cumulative_lower5),
-                "validated_incremental_expected_capture_lower5": validated_incremental,
+                "incremental_expected_capture_lower5": incremental_capture,
+                "validated_incremental_expected_capture_lower5": (
+                    incremental_capture if rank <= 20 else None
+                ),
                 "rank_scope": str(row.rank_scope),
                 "leave_one_out_loss_top5": None if contribution is None else optional_float(contribution.get("leave_one_out_loss")),
-                "cumulative_expected_capture": {
-                    "lower-5%": curve_map.get((0.95, rank)),
-                    "lower-10%": curve_map.get((0.90, rank)),
-                    "lower-20%": curve_map.get((0.80, rank)),
-                },
+                "cumulative_expected_capture": cumulative_capture,
                 "support_note": support_note(str(meta.get("support_tier", ""))),
             }
         )
+    return records
+
+
+def build_coverage(
+    sequence: pd.DataFrame,
+    full_capture: dict[str, np.ndarray],
+) -> list[dict[str, Any]]:
+    ordered = sequence.sort_values("rank").reset_index(drop=True)
+    records: list[dict[str, Any]] = []
+    for target, label in FULL_SEQUENCE_TARGETS:
+        values = full_capture[label]
+        for rank_index, value in enumerate(values):
+            rank = rank_index + 1
+            records.append(
+                {
+                    "sequence_basis_target": 0.95,
+                    "evaluation_target": target,
+                    "measured_tail": label,
+                    "panel_size": rank,
+                    "added_species": str(ordered.iloc[rank_index]["latin_name"]),
+                    "expected_capture": float(value),
+                    "coverage_scope": "frozen_top20" if rank <= 20 else "extended_prefix_evaluation",
+                    "unit": "probability",
+                }
+            )
     return records
 
 
@@ -344,21 +630,34 @@ def build_regional(
         for state, group in state_sequences.groupby("state_code", sort=True)
     }
     records: list[dict[str, Any]] = []
-    for state_code, count in sorted(state_weight_counts.items()):
+    for state_code, state_name in sorted(STATE_NAMES.items(), key=lambda item: item[1]):
+        count = int(state_weight_counts.get(state_code, 0))
         base = {
             "state_code": state_code,
-            "state_name": STATE_NAMES.get(state_code, state_code),
+            "state_name": state_name,
             "target": "lower-5%",
-            "eligible_priority_chemical_count": int(count),
+            "eligible_priority_chemical_count": count,
             "national_top5": national_top5,
         }
         if state_code not in comparison_by_state.index:
+            if count == 0:
+                reason = (
+                    "No eligible priority chemicals were available in the frozen state dataset; "
+                    "the fixed national Top-5 is shown as the default pending additional monitoring evidence."
+                )
+            else:
+                reason = (
+                    "Fewer than three eligible priority chemicals; localized optimization was not run. "
+                    "The fixed national Top-5 is shown as the default pending additional monitoring evidence."
+                )
             records.append(
                 {
                     **base,
                     "status": "insufficient_support",
-                    "reason": "Fewer than three eligible priority chemicals; localized optimization was not run.",
+                    "reason": reason,
                     "localized_top5": [],
+                    "display_top5": national_top5,
+                    "top5_basis": "Fixed national Top-5 (state-specific panel unavailable)",
                     "localized_sequence": [],
                     "overlap_species": [],
                     "overlap_count": 0,
@@ -390,6 +689,8 @@ def build_regional(
                 "status": "supported",
                 "reason": "",
                 "localized_top5": localized_top5,
+                "display_top5": localized_top5,
+                "top5_basis": "Localized Top-5",
                 "localized_sequence": localized,
                 "overlap_species": overlap,
                 "overlap_count": len(overlap),
@@ -462,27 +763,20 @@ def main() -> int:
     testing = pd.read_csv(analysis_root / SOURCE_FILES[10])
 
     sequence = build_complete_national_order(analysis_root, frozen_sequence, candidate)
-    national = build_national(sequence, candidate, warning, contributions, life, curves)
+    full_capture = build_full_cross_target_capture(analysis_root, sequence)
+    validate_frozen_capture_prefixes(full_capture, curves)
+    national = build_national(sequence, candidate, warning, contributions, life, full_capture)
     catalog = build_catalog(candidate, warning, life, sequence, testing)
-    coverage = [
-        {
-            "sequence_basis_target": float(row.sequence_basis_target),
-            "evaluation_target": float(row.evaluation_target),
-            "measured_tail": str(row.measured_tail),
-            "panel_size": int(row.panel_size),
-            "added_species": national[int(row.panel_size) - 1]["scientific_name"],
-            "expected_capture": float(row.expected_capture),
-            "unit": "probability",
-        }
-        for row in curves.sort_values(["evaluation_target", "panel_size"], ascending=[False, True]).itertuples(index=False)
-    ]
+    coverage = build_coverage(sequence, full_capture)
     national_top5 = [row["scientific_name"] for row in national[:5]]
     regional = build_regional(state_sequences, comparisons, state_weight_counts, national_top5)
+    state_map = build_state_map(analysis_root / SOURCE_FILES[-1])
 
     write_json(out / "national_sequence.json", national)
     write_json(out / "coverage.json", coverage)
     write_json(out / "species_catalog.json", catalog)
     write_json(out / "regional.json", regional)
+    write_json(out / "state_map.json", state_map)
     write_downloads(out, national, coverage, catalog, regional)
 
     source_digest = hashlib.sha256(
@@ -508,11 +802,12 @@ def main() -> int:
             "absolute_gain": "percentage points",
         },
         "definitions": {
-            "sequence_basis": "The national sequence was constructed at the lower-5% target. Its frozen Top-20 is extended through all 2,144 candidates with the same deterministic greedy complementarity objective for catalog exploration.",
-            "cross_target_evaluation": "Broader targets evaluate prefixes of the same fixed sequence without reoptimization.",
+            "sequence_basis": "The national sequence was constructed at the lower-5% target. Its frozen Top-20 is extended through all 2,144 candidates with the same deterministic greedy complementarity objective.",
+            "cross_target_evaluation": "All 2,144 prefixes of the fixed x=0.95 sequence are evaluated at the lower-5%, lower-10% and lower-20% targets without reoptimization, using the frozen target-specific probability matrices, national chemical weights and Gaussian-copula working dependence parameters.",
             "regional_target": "Regional panels were optimized at the lower-5% target.",
             "support_tiers": "Protective evidence volume is the number of distinct valid protective analysis contexts: very limited 1–4, limited 5–19, moderate 20–49, and strong 50 or more. It describes evidence volume, not sensitivity.",
-            "extended_rank_scope": "Dependence-adjusted expected-capture curves are frozen for ranks 1–20. Ranks 21–2,144 continue the selection objective; very small late-stage gains require follow-up evidence for practical discrimination.",
+            "extended_rank_scope": "Ranks 1–20 reproduce the frozen analysis release. Ranks 21–2,144 are a complete post hoc prefix evaluation under the same frozen Gaussian-copula model; late-stage gains become very small and require follow-up evidence for practical discrimination.",
+            "state_map": "Interactive state boundaries are derived from the U.S. Census Bureau 2024 1:500,000 cartographic boundary file used for Figure 5a. States without enough frozen priority-chemical support display the fixed national Top-5 as the documented default.",
         },
         "limitations": (
             "Precomputed research outputs only; the site does not execute the full model, "
@@ -540,6 +835,7 @@ def main() -> int:
                 "species_catalog_rows": len(catalog),
                 "coverage_rows": len(coverage),
                 "regional_rows": len(regional),
+                "state_map_rows": len(state_map["states"]),
                 "out": str(out),
             },
             indent=2,

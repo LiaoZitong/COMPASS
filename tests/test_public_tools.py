@@ -104,6 +104,58 @@ class SiteExporterTests(unittest.TestCase):
             )
             self.assertEqual(complete["latin_name"].nunique(), 4)
 
+    def test_full_prefix_capture_matches_independent_probability(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            probability_dir = root / "results/probability"
+            weight_dir = root / "results/weights"
+            panel_dir = root / "results/panels"
+            probability_dir.mkdir(parents=True)
+            weight_dir.mkdir(parents=True)
+            panel_dir.mkdir(parents=True)
+
+            species = np.asarray(
+                ["Species alpha", "Species beta", "Species gamma", "Species delta"]
+            )
+            chemicals = np.asarray([f"DTXSID{index:07d}" for index in range(362)])
+            sequence = pd.DataFrame(
+                {"rank": [1, 2, 3, 4], "latin_name": species}
+            )
+            probabilities_by_target = {
+                "95": np.asarray([0.10, 0.20, 0.30, 0.40]),
+                "90": np.asarray([0.20, 0.30, 0.40, 0.50]),
+                "80": np.asarray([0.30, 0.40, 0.50, 0.60]),
+            }
+            for suffix, probabilities in probabilities_by_target.items():
+                matrix = probabilities[:, None] @ np.ones((1, len(chemicals)))
+                np.savez(
+                    probability_dir / f"species_chemical_tail_probability_x{suffix}.npz",
+                    p=matrix,
+                    species=species,
+                    chemicals=chemicals,
+                )
+            pd.DataFrame(
+                {"DTXSID": chemicals, "national_weight": np.ones(len(chemicals))}
+            ).to_csv(weight_dir / "national_priority_chemicals.csv", index=False)
+            (panel_dir / "panel_probability_manifest.json").write_text(
+                '{"dependence_audit_by_x":{"0.95":{"rho_working":0},'
+                '"0.9":{"rho_working":0},"0.8":{"rho_working":0}}}',
+                encoding="utf-8",
+            )
+
+            observed = self.module.build_full_cross_target_capture(root, sequence)
+            labels_by_suffix = {
+                "95": "lower-5%",
+                "90": "lower-10%",
+                "80": "lower-20%",
+            }
+            self.assertEqual(set(observed), set(labels_by_suffix.values()))
+            for suffix, label in labels_by_suffix.items():
+                probabilities = probabilities_by_target[suffix]
+                expected = 1.0 - np.cumprod(1.0 - probabilities)
+                np.testing.assert_allclose(observed[label], expected, atol=1e-12, rtol=0)
+                self.assertTrue(np.all(np.diff(observed[label]) >= 0))
+
 
 class ReleaseAuditTests(unittest.TestCase):
     def test_temp_fixture_has_no_persistent_data(self) -> None:

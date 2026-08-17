@@ -1,9 +1,9 @@
 # Release validation report
 
-Local release candidate: `0.1.0-draft`  
-Frozen analysis: `v16.5`  
-Data freeze: `2026-08-02`  
-Validation date: `2026-08-08`
+Local release candidate: `0.2.0`
+Frozen analysis: `v16.5`
+Data freeze: `2026-08-02`
+Validation date: `2026-08-17`
 
 ## Outcome
 
@@ -12,12 +12,12 @@ The independent GitHub package passes all locally executable release checks. It 
 | Check | Outcome |
 |---|---:|
 | Python compilation | pass |
-| Data-free unit tests | 7/7 pass |
+| Data-free unit tests | 8/8 pass |
 | Full 22-stage dry run | pass |
-| Frozen analysis/site consistency | 41/41 pass |
-| Static-site automated validation | 27/27 pass |
+| Frozen analysis/site consistency | 51/51 pass |
+| Static-site automated validation | 34/34 pass |
 | Private-release path, secret, marker, extension, and size audit | 942/942 pass |
-| Chromium desktop, mobile-width, interaction, and private-browsing QA | pass |
+| Chromium Edge desktop, 500-pixel mobile, interaction, and private-context QA | 10 screenshots; pass |
 
 The dry run reports eight externally acquired inputs in the compact checkout. This is expected because the large source datasets are distributed through their official services. Required filenames, provider links, access dates, and field contracts are documented under `data/`.
 
@@ -25,10 +25,12 @@ The dry run reports eight externally acquired inputs in the compact checkout. Th
 
 - National Top-5: *Gastrophryne carolinensis*, *Daphnia ambigua*, *Neocloeon triangulifer*, *Daphnia magna*, and *Hyalella azteca*.
 - The site export contains a complete, unique ordering of all 2,144 formal-binomial candidates. Ranks 1-20 reproduce the frozen panel sequence; ranks 21-2,144 continue the same deterministic greedy selection objective and are explicitly scope-labeled.
+- Cumulative expected capture is present for all 2,144 prefixes at all three targets (6,432 values). The exporter reproduces the 60 frozen rank-1--20 curve values before accepting the post hoc extension.
 - Fixed Top-5 expected capture: 30.6% at lower-5%, 58.0% at lower-10%, and 87.7% at lower-20%.
-- Localized panels: 32 supported states; PA, TN, and WV have insufficient chemical support under the frozen minimum-support rule.
+- Regional export: all 50 states plus the District of Columbia. Thirty-two have frozen localized panels; the other 19 show the fixed national Top-5 as a documented default without fabricating localized estimates. PA, TN, and WV each have one eligible priority chemical.
+- The interactive map contains 51 Census-derived geometries, synchronized map/menu selection, selected-state emphasis, and five-species hover/focus details.
 - Complete machine-readable comparisons are recorded in `release/result_crosswalk.csv` and `config/expected_results.json`.
 
 ## Pending external release checks
 
-Release tagging, public-license approval, Zenodo archiving, DOI insertion, and a Google Chrome-specific pass remain for the eventual public archival release. The private repository and owner-access Sites deployment are recorded in the task handoff after remote verification.
+Public-license approval, release tagging, Zenodo archiving, DOI insertion, and a Google Chrome-specific pass remain for the eventual public archival code release. The GitHub repository remains private while the license decision is pending; the companion results site is deployed separately with public access.

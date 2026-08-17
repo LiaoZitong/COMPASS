@@ -16,7 +16,7 @@ The dates and local compressed sizes below describe the frozen v16.5 source work
 | U.S. EPA | CompTox Dashboard and CTX APIs | 2026-02-25 / 2026-02-27 | `data/processed/chemical_master.csv.gz` and mechanism bundle mappings | 2.91 MB for chemical master | No | 03–05 |
 | Author-curated references | Species taxonomy/traits and life-stage mapping | frozen 2026-06-22 | `species_traits_curated.csv`, `lifestage_codes.txt` | 0.85 MB | No in this release | 01, 03 |
 | EPA/OECD/CCME/ANZG/EU source documents | Operational comparator catalog | frozen 2026-06-22 | `regulatory_baseline_catalog.csv` | 0.004 MB | No in this release | 13, 19 |
-| U.S. Census Bureau | 2024 1:500,000 state cartographic boundaries | current figure source | `data/external/cb_2024_us_state_500k.zip` | external | No; download from Census | Figure 5 |
+| U.S. Census Bureau | 2024 1:500,000 state cartographic boundaries | current figure/site-map source | `data/external/cb_2024_us_state_500k.zip` | external | No; download from Census | Figure 5 and static explorer |
 
 GBIF occurrence download DOIs recorded by the frozen manuscript are `10.15468/dl.jw3vuc`, `10.15468/dl.jcupcd`, `10.15468/dl.7jdzjh`, `10.15468/dl.y8ptv8`, and `10.15468/dl.5bdt74`.
 

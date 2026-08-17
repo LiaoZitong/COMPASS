@@ -176,12 +176,54 @@ def main() -> int:
         national = load_site_json(site_data, "national_sequence.json")
         coverage = load_site_json(site_data, "coverage.json")
         regional_site = load_site_json(site_data, "regional.json")
+        state_map = load_site_json(site_data, "state_map.json")
         site_top10 = [row["scientific_name"] for row in national[:10]]
         add(checks, "site_top10", site_top10 == expected["national_top10"], site_top10, expected["national_top10"], "site_data/national_sequence.json")
         site_top20 = [row["scientific_name"] for row in national[:20]]
         add(checks, "site_top20", site_top20 == expected["national_top20"], site_top20, expected["national_top20"], "site_data/national_sequence.json")
         site_ranks = [int(row["national_rank"]) for row in national]
         add(checks, "site_complete_national_order", site_ranks == list(range(1, 2145)), {"rows": len(site_ranks), "unique": len(set(site_ranks))}, {"rows": 2144, "unique": 2144}, "site_data/national_sequence.json")
+        target_specs = ((0.95, "lower-5%"), (0.90, "lower-10%"), (0.80, "lower-20%"))
+        for target, label in target_specs:
+            national_values = [
+                row.get("cumulative_expected_capture", {}).get(label) for row in national
+            ]
+            numeric_values = np.asarray(
+                [float(value) for value in national_values if value is not None], dtype=float
+            )
+            complete = len(numeric_values) == len(national)
+            monotone = complete and bool(np.all(np.diff(numeric_values) >= -1e-12))
+            bounded = complete and bool(np.all((numeric_values >= 0) & (numeric_values <= 1)))
+            add(
+                checks,
+                f"site_full_capture_{label}",
+                complete and monotone and bounded,
+                {"numeric_rows": len(numeric_values), "monotone": monotone, "bounded": bounded},
+                {"numeric_rows": 2144, "monotone": True, "bounded": True},
+                "site_data/national_sequence.json",
+            )
+            target_rows = sorted(
+                (row for row in coverage if close(row["evaluation_target"], target, 1e-12)),
+                key=lambda row: int(row["panel_size"]),
+            )
+            coverage_values = np.asarray(
+                [float(row["expected_capture"]) for row in target_rows], dtype=float
+            )
+            aligned = (
+                len(target_rows) == len(national)
+                and len(numeric_values) == len(national)
+                and [int(row["panel_size"]) for row in target_rows] == list(range(1, 2145))
+                and np.allclose(coverage_values, numeric_values, rtol=0, atol=tolerance)
+            )
+            add(
+                checks,
+                f"site_coverage_alignment_{label}",
+                aligned,
+                {"rows": len(target_rows), "maximum_absolute_difference": None if not aligned else float(np.max(np.abs(coverage_values - numeric_values)))},
+                {"rows": 2144, "maximum_absolute_difference": 0.0},
+                "site_data/coverage.json",
+            )
+        add(checks, "site_coverage_rows", len(coverage) == 6432, len(coverage), 6432, "site_data/coverage.json")
         site_k5 = {
             str(float(row["evaluation_target"])).rstrip("0").rstrip("."): row["expected_capture"]
             for row in coverage
@@ -191,6 +233,12 @@ def main() -> int:
             add(checks, f"site_capture_{target}", target in site_k5 and close(site_k5[target], value, tolerance), site_k5.get(target), value, "site_data/coverage.json")
         supported = [row for row in regional_site if row["status"] == "supported"]
         add(checks, "site_regional_count", len(supported) == regional["supported_states"], len(supported), regional["supported_states"], "site_data/regional.json")
+        regional_codes = [row["state_code"] for row in regional_site]
+        map_states = state_map.get("states", [])
+        map_codes = [row.get("state_code") for row in map_states]
+        add(checks, "site_regional_all_states", len(regional_codes) == 51 and len(set(regional_codes)) == 51, {"rows": len(regional_codes), "unique": len(set(regional_codes))}, {"rows": 51, "unique": 51}, "site_data/regional.json")
+        add(checks, "site_regional_display_top5", all(len(row.get("display_top5", [])) == 5 for row in regional_site), sum(len(row.get("display_top5", [])) == 5 for row in regional_site), 51, "site_data/regional.json")
+        add(checks, "site_state_map_alignment", set(map_codes) == set(regional_codes) and len(map_codes) == 51 and all(row.get("path") for row in map_states), {"rows": len(map_codes), "codes_match": set(map_codes) == set(regional_codes), "nonempty_paths": sum(bool(row.get("path")) for row in map_states)}, {"rows": 51, "codes_match": True, "nonempty_paths": 51}, "site_data/state_map.json")
         add(checks, "site_analysis_version", metadata.get("analysis_version") == expected["analysis_version"], metadata.get("analysis_version"), expected["analysis_version"], "site_data/metadata.json")
 
     failed = [check for check in checks if not check.passed]

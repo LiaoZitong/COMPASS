@@ -7,8 +7,8 @@
   "source_version_record": "release/source_manifest_sha256.csv",
   "key_output_record": "release/key_output_manifest_sha256.csv",
   "source_workspace_git_history_available": false,
-  "site_export_identifier": "24d0c3c01efe1caae7eca51e70275a750bffa6ec85b8a3e200788637b85f39de",
-  "site_version": "0.1.0-draft",
+  "site_export_identifier": "daa63eba04202b83efb9cf108f5052cd568966e1d5583559c8fb7d158bd8ca20",
+  "site_version": "0.2.0",
   "data_distribution": "Large public and provider-hosted inputs, including EPA ECOTOX, are obtained from their official services and are not mirrored in the compact GitHub code package.",
   "local_validation_commands": [
     "python -m unittest discover -s tests -v",

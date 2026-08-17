@@ -8,7 +8,7 @@ Records site, analysis, manuscript, and SI versions; data-freeze and generation 
 
 ## `national_sequence.json`
 
-One row per candidate species in the complete lower-5% national ordering. Ranks 1–20 reproduce the frozen sequence and contain dependence-adjusted `cumulative_expected_capture` probabilities for the lower-5%, lower-10%, and lower-20% evaluations. Ranks 21–2,144 continue the same deterministic greedy complementarity objective for catalog exploration and are identified by `rank_scope = extended_greedy_order`; validated cumulative capture is left null beyond rank 20. `selection_incremental_gain_lower5` and `selection_objective_cumulative_lower5` describe the selection objective. `leave_one_out_loss_top5` is populated only where the frozen analysis formally calculated it.
+One row per candidate species in the complete lower-5% national ordering. Ranks 1–20 reproduce the frozen sequence; ranks 21–2,144 continue the same deterministic greedy complementarity objective and are identified by `rank_scope = extended_greedy_order`. `cumulative_expected_capture` contains dependence-adjusted probabilities for the lower-5%, lower-10%, and lower-20% evaluations at every prefix. The 60 rank-1--20 values are frozen validation checkpoints; later values are labeled post hoc extended-prefix evaluations. `selection_incremental_gain_lower5` and `selection_objective_cumulative_lower5` describe the selection objective. `leave_one_out_loss_top5` is populated only where the frozen analysis formally calculated it.
 
 ## `coverage.json`
 
@@ -20,7 +20,11 @@ One row per formal-binomial candidate species. Taxonomy, direct protective and w
 
 ## `regional.json`
 
-One row per state with at least one eligible priority chemical in the frozen state-weight table. Supported states contain a complete localized sequence, fixed national Top-5 comparison, overlap, expected capture, and gain in percentage points. States with fewer than three eligible priority chemicals are retained with `status = insufficient_support` and a reason.
+One row for each of the 50 states and the District of Columbia. The 32 supported states contain a complete localized sequence, fixed national Top-5 comparison, overlap, expected capture, and gain in percentage points. All other records retain `status = insufficient_support`, an evidence-based reason, and the fixed national Top-5 as `display_top5` without fabricating a localized panel.
+
+## `state_map.json`
+
+Contains one compact SVG path geometry per state and the District of Columbia, label/callout coordinates, a shared view box, and the U.S. Census Bureau boundary-source URL. It supports synchronized map and selector interaction; it does not contain analytical estimates.
 
 ## Downloads
 

@@ -12,21 +12,20 @@
 - [x] Large-file, secret, personal-path, and prohibited-marker scan passes.
 - [x] SHA-256 source and key-output manifests are generated; regenerate package checksums after any later edit.
 
-## Author decisions required before Git initialization and remote creation
+## Repository and deployment decisions
 
-- [ ] Confirm repository name.
-- [ ] Confirm initial visibility (taskbook default: private).
+- [x] Repository name confirmed as `COMPASS`.
+- [x] Initial repository visibility confirmed as private.
 - [ ] Select and approve a public code license.
 - [ ] Confirm final contact details and citation metadata.
-- [ ] Confirm whether the static site will use the same repository or a separate deployment repository.
+- [x] Static site uses a separate Sites deployment with public access.
 
 ## Remote release
 
-- [ ] Show the exact `git init`, add, status, commit, and `gh repo create` commands to the author.
-- [ ] Initialize Git only inside this directory after approval.
+- [x] Git repository initialized only inside this independent package after approval.
 - [ ] Inspect staged files before commit; never use `git add -f`.
-- [ ] Create the private remote and verify branch, remote, and web contents.
+- [x] Private `LiaoZitong/COMPASS` remote, `main` branch, and web contents verified.
 - [ ] Create a tested pre-release/release tag.
 - [ ] Connect Zenodo, archive the approved release, and record the real DOI.
 - [ ] Update citation, version page, and data-availability statement with real identifiers.
-- [ ] Deploy the static site and test the public URL in desktop, mobile-width, and private browsing contexts.
+- [x] Public companion site configured; each update is tested locally in desktop, mobile-width, interaction, and private contexts before deployment.

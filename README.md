@@ -2,7 +2,7 @@
 
 COMPASS is a research workflow for selecting compact aquatic sentinel panels from sparse and imbalanced toxicity evidence. It estimates measured-tail probabilities, selects a fixed national sequence at the lower-5% target, evaluates the same sequence at broader lower-tail targets, localizes panels with state-priority chemical and species-relevance weights, and identifies evidence-acquisition priorities.
 
-This repository is a code-only release candidate. It contains the core analysis and main-figure code needed to reproduce the frozen v16.5 workflow after the required inputs are obtained separately. Large public and provider-hosted source datasets, including EPA ECOTOX, are not mirrored in the repository; users can obtain them from the official sources documented below.
+This repository is a compact, code-only reproducibility package. It contains the core analysis and main-figure code needed to reproduce the frozen v16.5 workflow after the required inputs are obtained separately. Large public and provider-hosted source datasets, including EPA ECOTOX, are not mirrored in the repository; users can obtain them from the official sources documented below.
 
 > The repository does not redistribute the full ECOTOX-derived or other third-party raw datasets. Full-data execution requires users to obtain these data from the cited providers and place them in the expected local directories.
 
@@ -104,9 +104,9 @@ Analysis products are written beneath `results/`; logs are written beneath `logs
 
 - national Top-5 membership, frozen Top-20 ordering, and a deterministic full 2,144-species continuation for the explorer;
 - fixed Top-5 expected capture of 30.6%, 58.0%, and 87.7% at the lower-5%, lower-10%, and lower-20% targets;
-- panel-size coverage checkpoints at `k = 1, 5, 10, 20`;
+- frozen panel-size coverage checkpoints at `k = 1, 5, 10, 20`, plus post hoc cumulative expected capture for every prefix through rank 2,144;
 - comparator, Top5-apical, warning, and regional summaries;
-- 32 supported localized state panels and explicit insufficient-support states.
+- 32 supported localized state panels, explicit national-default records for the remaining states and the District of Columbia, and Census-derived interactive map geometry.
 
 Validate computed results with:
 
@@ -134,7 +134,7 @@ The browser never executes Equations 1–5 or reoptimizes a panel. Export frozen
 .\.venv\Scripts\python.exe .\code\export_site_data.py --analysis-root . --out .\outputs\site_data
 ```
 
-The export contains the frozen Top-20 coverage sequence and a scope-labeled continuation through all 2,144 candidates. The independent site package consumes that directory. See [`docs/site_export.md`](docs/site_export.md).
+The export contains the frozen Top-20 sequence, a scope-labeled continuation through all 2,144 candidates, cumulative expected capture for all three targets at every prefix, all 50 states plus the District of Columbia, and Census-derived map geometry. The independent site package consumes that directory. See [`docs/site_export.md`](docs/site_export.md).
 
 ## Tests
 

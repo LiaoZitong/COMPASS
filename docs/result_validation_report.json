@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "analysis_version": "v16.5",
-  "profile": "analysis",
-  "checks": 41,
-  "passed": 41,
+  "profile": "release",
+  "checks": 51,
+  "passed": 51,
   "failed": 0,
   "all_passed": true,
   "details": [
@@ -418,16 +418,107 @@
       "source": "site_data/national_sequence.json"
     },
     {
+      "name": "site_full_capture_lower-5%",
+      "passed": true,
+      "observed": {
+        "numeric_rows": 2144,
+        "monotone": true,
+        "bounded": true
+      },
+      "expected": {
+        "numeric_rows": 2144,
+        "monotone": true,
+        "bounded": true
+      },
+      "source": "site_data/national_sequence.json"
+    },
+    {
+      "name": "site_coverage_alignment_lower-5%",
+      "passed": true,
+      "observed": {
+        "rows": 2144,
+        "maximum_absolute_difference": 0.0
+      },
+      "expected": {
+        "rows": 2144,
+        "maximum_absolute_difference": 0.0
+      },
+      "source": "site_data/coverage.json"
+    },
+    {
+      "name": "site_full_capture_lower-10%",
+      "passed": true,
+      "observed": {
+        "numeric_rows": 2144,
+        "monotone": true,
+        "bounded": true
+      },
+      "expected": {
+        "numeric_rows": 2144,
+        "monotone": true,
+        "bounded": true
+      },
+      "source": "site_data/national_sequence.json"
+    },
+    {
+      "name": "site_coverage_alignment_lower-10%",
+      "passed": true,
+      "observed": {
+        "rows": 2144,
+        "maximum_absolute_difference": 0.0
+      },
+      "expected": {
+        "rows": 2144,
+        "maximum_absolute_difference": 0.0
+      },
+      "source": "site_data/coverage.json"
+    },
+    {
+      "name": "site_full_capture_lower-20%",
+      "passed": true,
+      "observed": {
+        "numeric_rows": 2144,
+        "monotone": true,
+        "bounded": true
+      },
+      "expected": {
+        "numeric_rows": 2144,
+        "monotone": true,
+        "bounded": true
+      },
+      "source": "site_data/national_sequence.json"
+    },
+    {
+      "name": "site_coverage_alignment_lower-20%",
+      "passed": true,
+      "observed": {
+        "rows": 2144,
+        "maximum_absolute_difference": 0.0
+      },
+      "expected": {
+        "rows": 2144,
+        "maximum_absolute_difference": 0.0
+      },
+      "source": "site_data/coverage.json"
+    },
+    {
+      "name": "site_coverage_rows",
+      "passed": true,
+      "observed": 6432,
+      "expected": 6432,
+      "source": "site_data/coverage.json"
+    },
+    {
       "name": "site_capture_0.95",
       "passed": true,
-      "observed": 0.3055373085768699,
+      "observed": 0.30553730857687006,
       "expected": 0.30553730857687006,
       "source": "site_data/coverage.json"
     },
     {
       "name": "site_capture_0.9",
       "passed": true,
-      "observed": 0.5802658236765963,
+      "observed": 0.5802658236765964,
       "expected": 0.5802658236765964,
       "source": "site_data/coverage.json"
     },
@@ -444,6 +535,41 @@
       "observed": 32,
       "expected": 32,
       "source": "site_data/regional.json"
+    },
+    {
+      "name": "site_regional_all_states",
+      "passed": true,
+      "observed": {
+        "rows": 51,
+        "unique": 51
+      },
+      "expected": {
+        "rows": 51,
+        "unique": 51
+      },
+      "source": "site_data/regional.json"
+    },
+    {
+      "name": "site_regional_display_top5",
+      "passed": true,
+      "observed": 51,
+      "expected": 51,
+      "source": "site_data/regional.json"
+    },
+    {
+      "name": "site_state_map_alignment",
+      "passed": true,
+      "observed": {
+        "rows": 51,
+        "codes_match": true,
+        "nonempty_paths": 51
+      },
+      "expected": {
+        "rows": 51,
+        "codes_match": true,
+        "nonempty_paths": 51
+      },
+      "source": "site_data/state_map.json"
     },
     {
       "name": "site_analysis_version",

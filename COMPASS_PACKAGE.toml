@@ -1,8 +1,8 @@
 schema_version = 1
-package_version = "1.0.0"
+package_version = "1.0.1"
 analysis_version = "R1-strict-LOO-2026-09-18"
 base_analysis_version = "v16.5"
-site_version = "1.0.0"
+site_version = "1.0.1"
 data_freeze_date = "2026-08-02"
 manuscript_source_version = "R1-2026-09-18"
 supporting_information_source_version = "R1-2026-09-18"

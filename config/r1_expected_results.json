@@ -73,5 +73,25 @@
     "max_gain_state": "CT",
     "max_gain_percentage_points": 10.16026314743147,
     "fallback_states": {"PA": 1, "TN": 1, "WV": 1}
+  },
+  "strict_loo_robustness": {
+    "profiled_cells": 24254,
+    "profile_contexts": 413,
+    "mnar_observed_pairs": 17037,
+    "strict_loo_core_coverage": 0.3377643309928551,
+    "top5_member_flip_threshold_within_tested_or_range": null,
+    "mnar_scenarios": [
+      {"odds_ratio": 0.25, "expected_capture": 0.4436710049384571},
+      {"odds_ratio": 0.5, "expected_capture": 0.28047825639251517},
+      {"odds_ratio": 1.0, "expected_capture": 0.16612086091405362},
+      {"odds_ratio": 2.0, "expected_capture": 0.09414090658255723},
+      {"odds_ratio": 4.0, "expected_capture": 0.0515999048908143}
+    ],
+    "profile_medians": {
+      "median_ratio": 0.1347482075753386,
+      "spearman_r": 0.8763930524453094,
+      "within_factor2": 0.17675544794188863,
+      "false_safe_factor2_rate": 0.07990314769975787
+    }
   }
 }

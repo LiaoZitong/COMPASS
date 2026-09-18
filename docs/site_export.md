@@ -25,7 +25,7 @@ Example:
   --out .\outputs\site_data `
   --boundary-zip .\data\external\cb_2024_us_state_500k.zip `
   --git-commit <full-commit-sha> `
-  --github-release https://github.com/LiaoZitong/COMPASS/releases/tag/v1.0.0
+  --github-release https://github.com/LiaoZitong/COMPASS/releases/tag/v1.0.1
 
 .\.venv\Scripts\python.exe .\code\revision_r1\validate_revision_results.py `
   --revision-root .\results\revision_r1 `

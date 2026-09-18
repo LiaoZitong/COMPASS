@@ -8,17 +8,18 @@ COMPASS package root.
 |---|---|
 | Python compilation for public code and tests | pass |
 | Base `unittest` suite | 8/8 pass |
-| R1 AP01/AP02/AP03A/AP03B/AP04/AP05/G3 assertion entry points | 13/13 pass |
-| `run_revision_analysis.py --dry-run` | 7/7 packages resolved in the frozen order |
-| `validate_revision_results.py` against approved R1 gates | 41/41 pass |
-| R1 Explorer export plus cross-package validation | 47/47 pass |
+| Revision data-free/integration assertions, including strict-LOO robustness | 16/16 pass |
+| `run_revision_analysis.py --dry-run` | 8/8 packages resolved in the frozen order |
+| `validate_revision_results.py` against approved gates | 56/56 pass |
+| Explorer export plus cross-package validation | 62/62 pass |
 | `audit_release.py --profile public` | pass, zero failures |
 
-The computationally intensive R1 analyses were not rerun during packaging: the
-author-approved outputs had already been generated in the required dependency
-order. Release validation reads the completed gates, source tables, matrices,
-and integrated numerical freeze, while the data-free tests exercise the key
-mathematical and routing contracts.
+The author-approved primary analyses were not rerun during packaging. The
+strict-LOO profile-likelihood and MNAR robustness stage was rerun with 2,000
+profile draws after its probability inputs were aligned with the primary
+strict-LOO layer. Release validation reads the completed gates, source tables,
+matrices, and integrated numerical freeze, while the data-free tests exercise
+the key mathematical and routing contracts.
 
 The package is versioned in Git; base and R1 provenance remain recorded through
 the source/output manifests, machine-readable validation reports, and

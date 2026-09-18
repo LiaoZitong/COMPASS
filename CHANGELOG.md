@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1 — 2026-09-18
+
+- Recomputed profile-likelihood propagation and MNAR testing-selection sensitivity from the strict focal-species leave-one-out probability layer.
+- Added a frozen robustness gate, expected-value contract, and Figure S6 renderer with editable vector outputs and source data.
+- Extended the ordered revision runner, exhibit validator, and release validator to include the strict-LOO robustness stage.
+- Preserved the primary strict-LOO probability matrix and national Top-5 while reporting the uncertainty and selection-sensitivity analyses as diagnostics.
+
 ## 1.0.0 — 2026-09-18
 
 - Promoted the reviewer-requested strict focal-species leave-one-out analysis to the R1 primary probability layer.

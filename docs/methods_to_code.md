@@ -25,3 +25,8 @@
 
 `code/run_analysis.py` preserves this order. The static explorer reads only exported results and never calls these stages in the browser.
 
+The reviewer-requested revision layer then runs `code/revision_r1/run_revision_analysis.py`.
+Its eighth and final stage, `run_strict_loo_robustness.py`, recomputes profile-likelihood
+propagation and MNAR testing-selection sensitivity from the approved strict focal-species
+leave-one-out matrices. `figures/render_r1_si_figure_s6.py` renders the corresponding
+source-data-backed SI figure.

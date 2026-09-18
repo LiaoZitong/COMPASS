@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -12,19 +13,32 @@ from PIL import Image
 
 SCRIPT = Path(__file__).resolve()
 PACKAGE_ROOT = SCRIPT.parents[3]
-ANALYSIS_ROOT = PACKAGE_ROOT / "results" / "revision_r1"
-EXHIBIT_ROOT = ANALYSIS_ROOT / "08_r1_exhibits"
-AP04_S8 = ANALYSIS_ROOT / "06_ap04_localization_sensitivity" / "si_figure_s8"
 
-FIGURES = {
-    "Figure 2": (EXHIBIT_ROOT / "main_figure_02", "figure_02_r1_strict_loo_performance_complementarity"),
-    "Figure 3": (EXHIBIT_ROOT / "main_figure_03", "figure_03_r1_measured_validation_followup_robustness"),
-    "Figure 5": (EXHIBIT_ROOT / "main_figure_05", "figure_05_r1_localization_testing_priorities"),
-    "Figure S3": (EXHIBIT_ROOT / "si_figure_s3", "figure_s3_r1_taxonomic_support"),
-    "Figure S4": (EXHIBIT_ROOT / "si_figure_s4", "figure_s4_r1_available_member_followup_sensitivity"),
-    "Figure S7": (EXHIBIT_ROOT / "si_figure_s7", "figure_s7_r1_state_support_testing"),
-    "Figure S8": (AP04_S8, "figure_s8_localization_sensitivity"),
-}
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--analysis-root",
+        type=Path,
+        default=PACKAGE_ROOT / "results" / "revision_r1",
+        help="Revision analysis directory containing 08_r1_exhibits.",
+    )
+    return parser.parse_args()
+
+
+def figure_registry(analysis_root: Path) -> dict[str, tuple[Path, str]]:
+    exhibit_root = analysis_root / "08_r1_exhibits"
+    ap04_s8 = analysis_root / "06_ap04_localization_sensitivity" / "si_figure_s8"
+    return {
+        "Figure 2": (exhibit_root / "main_figure_02", "figure_02_r1_strict_loo_performance_complementarity"),
+        "Figure 3": (exhibit_root / "main_figure_03", "figure_03_r1_measured_validation_followup_robustness"),
+        "Figure 5": (exhibit_root / "main_figure_05", "figure_05_r1_localization_testing_priorities"),
+        "Figure S3": (exhibit_root / "si_figure_s3", "figure_s3_r1_taxonomic_support"),
+        "Figure S4": (exhibit_root / "si_figure_s4", "figure_s4_r1_available_member_followup_sensitivity"),
+        "Figure S6": (exhibit_root / "si_figure_s6", "figure_s6_strict_loo_profile_mnar"),
+        "Figure S7": (exhibit_root / "si_figure_s7", "figure_s7_r1_state_support_testing"),
+        "Figure S8": (ap04_s8, "figure_s8_localization_sensitivity"),
+    }
 
 
 def raster_record(path: Path) -> dict[str, object]:
@@ -41,9 +55,13 @@ def raster_record(path: Path) -> dict[str, object]:
 
 
 def main() -> None:
+    args = parse_args()
+    analysis_root = args.analysis_root.resolve()
+    exhibit_root = analysis_root / "08_r1_exhibits"
+    figures = figure_registry(analysis_root)
     results: dict[str, dict[str, object]] = {}
     failures: list[str] = []
-    for figure_id, (folder, stem) in FIGURES.items():
+    for figure_id, (folder, stem) in figures.items():
         paths = {suffix: folder / f"{stem}.{suffix}" for suffix in ["svg", "pdf", "png", "tiff"]}
         missing = [str(path) for path in paths.values() if not path.exists()]
         if missing:
@@ -95,8 +113,8 @@ def main() -> None:
             ],
         },
     }
-    EXHIBIT_ROOT.mkdir(parents=True, exist_ok=True)
-    (EXHIBIT_ROOT / "R1_EXHIBIT_QA.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    exhibit_root.mkdir(parents=True, exist_ok=True)
+    (exhibit_root / "R1_EXHIBIT_QA.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     lines = [
         "# R1 exhibit QA",
         "",
@@ -114,7 +132,7 @@ def main() -> None:
     lines.extend(["", f"Manual visual QA: performed at full available image detail for all {len(results)} exhibits.", ""])
     if failures:
         lines.extend(["## Failures", "", *[f"- {item}" for item in failures], ""])
-    (EXHIBIT_ROOT / "R1_EXHIBIT_QA.md").write_text("\n".join(lines), encoding="utf-8")
+    (exhibit_root / "R1_EXHIBIT_QA.md").write_text("\n".join(lines), encoding="utf-8")
     print(json.dumps({"status": payload["status"], "figures_checked": len(results), "failures": failures}, ensure_ascii=False, indent=2))
     if failures:
         raise SystemExit(1)

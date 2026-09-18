@@ -12,8 +12,9 @@
   "r1_site_validation_record": "docs/r1_site_validation_report.json",
   "source_workspace_git_history_available": false,
   "repository": "https://github.com/LiaoZitong/COMPASS",
-  "release_tag": "v1.0.0",
-  "site_version": "1.0.0",
+  "release_tag": "v1.0.1",
+  "site_export_identifier": "7ac6115a705c6187a60b24e9437acbb8e37c8368201aaa176597ea5ff6a33b72",
+  "site_version": "1.0.1",
   "data_distribution": "Large public and provider-hosted inputs, including EPA ECOTOX, are obtained from their official services and are not mirrored in the compact GitHub code package.",
   "local_validation_commands": [
     "python -m unittest discover -s tests -v",

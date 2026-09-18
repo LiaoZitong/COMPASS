@@ -1,8 +1,8 @@
 # Data and code availability statement
 
 Core analysis code is available in the versioned COMPASS repository at
-https://github.com/LiaoZitong/COMPASS. The R1 analysis is frozen in release
-`v1.0.0`; the tagged commit and source checksums provide the exact software
+https://github.com/LiaoZitong/COMPASS. The analysis supporting this revision is frozen in release
+`v1.0.1`; the tagged commit and source checksums provide the exact software
 identity. The companion COMPASS Results Explorer at
 https://compass-results-explorer.liaozt22.chatgpt.site/explorer/ presents and
 exports precomputed outputs from the same R1 source state.

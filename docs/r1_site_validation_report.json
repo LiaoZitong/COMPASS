@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "profile": "R1 strict-LOO release",
-  "checks": 47,
+  "checks": 62,
   "failed": 0,
   "all_passed": true,
   "results": [
@@ -53,6 +53,13 @@
       "observed": "PASS",
       "expected": "PASS",
       "source": "gate_g3.json"
+    },
+    {
+      "name": "gate_strict_LOO_robustness",
+      "passed": true,
+      "observed": "PASS",
+      "expected": "PASS",
+      "source": "gate_strict_loo_robustness.json"
     },
     {
       "name": "eligibility_eligible_records",
@@ -341,6 +348,104 @@
       "observed": 494,
       "expected": 494,
       "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "robustness_profiled_cells",
+      "passed": true,
+      "observed": 24254,
+      "expected": 24254,
+      "source": "strict_loo_robustness_manifest.json"
+    },
+    {
+      "name": "robustness_profile_contexts",
+      "passed": true,
+      "observed": 413,
+      "expected": 413,
+      "source": "strict_loo_robustness_manifest.json"
+    },
+    {
+      "name": "robustness_mnar_observed_pairs",
+      "passed": true,
+      "observed": 17037,
+      "expected": 17037,
+      "source": "strict_loo_robustness_manifest.json"
+    },
+    {
+      "name": "robustness_core_coverage",
+      "passed": true,
+      "observed": 0.3377643309928551,
+      "expected": 0.3377643309928551,
+      "source": "strict_loo_robustness_manifest.json"
+    },
+    {
+      "name": "robustness_top5_member_flip_threshold",
+      "passed": true,
+      "observed": null,
+      "expected": null,
+      "source": "strict_loo_robustness_manifest.json"
+    },
+    {
+      "name": "robustness_mnar_or_0.25",
+      "passed": true,
+      "observed": 0.4436710049384571,
+      "expected": 0.4436710049384571,
+      "source": "strict_loo_mnar_sensitivity_scenarios.csv"
+    },
+    {
+      "name": "robustness_mnar_or_0.5",
+      "passed": true,
+      "observed": 0.2804782563925151,
+      "expected": 0.28047825639251517,
+      "source": "strict_loo_mnar_sensitivity_scenarios.csv"
+    },
+    {
+      "name": "robustness_mnar_or_1.0",
+      "passed": true,
+      "observed": 0.1661208609140536,
+      "expected": 0.16612086091405362,
+      "source": "strict_loo_mnar_sensitivity_scenarios.csv"
+    },
+    {
+      "name": "robustness_mnar_or_2.0",
+      "passed": true,
+      "observed": 0.0941409065825572,
+      "expected": 0.09414090658255723,
+      "source": "strict_loo_mnar_sensitivity_scenarios.csv"
+    },
+    {
+      "name": "robustness_mnar_or_4.0",
+      "passed": true,
+      "observed": 0.0515999048908143,
+      "expected": 0.0515999048908143,
+      "source": "strict_loo_mnar_sensitivity_scenarios.csv"
+    },
+    {
+      "name": "robustness_profile_median_ratio",
+      "passed": true,
+      "observed": 0.1347482075753386,
+      "expected": 0.1347482075753386,
+      "source": "strict_loo_framework_profile_metrics.csv"
+    },
+    {
+      "name": "robustness_profile_spearman_r",
+      "passed": true,
+      "observed": 0.8763930524453094,
+      "expected": 0.8763930524453094,
+      "source": "strict_loo_framework_profile_metrics.csv"
+    },
+    {
+      "name": "robustness_profile_within_factor2",
+      "passed": true,
+      "observed": 0.1767554479418886,
+      "expected": 0.17675544794188863,
+      "source": "strict_loo_framework_profile_metrics.csv"
+    },
+    {
+      "name": "robustness_profile_false_safe_factor2_rate",
+      "passed": true,
+      "observed": 0.0799031476997578,
+      "expected": 0.07990314769975787,
+      "source": "strict_loo_framework_profile_metrics.csv"
     },
     {
       "name": "site_national_top20",

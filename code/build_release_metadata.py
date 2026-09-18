@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import platform
+import tomllib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -210,6 +211,11 @@ def build_crosswalk(package_root: Path) -> None:
 
 def build_run_metadata(package_root: Path, site_root: Path | None) -> None:
     config = json.loads((package_root / "config/reproduction_config.json").read_text(encoding="utf-8"))
+    package = tomllib.loads((package_root / "COMPASS_PACKAGE.toml").read_text(encoding="utf-8"))
+    run_metadata_path = package_root / "release/run_metadata.json"
+    existing_metadata: dict[str, Any] = {}
+    if run_metadata_path.is_file():
+        existing_metadata = json.loads(run_metadata_path.read_text(encoding="utf-8"))
     site_metadata: dict[str, Any] = {}
     if site_root:
         site_path = site_root / "site_data/metadata.json"
@@ -217,24 +223,33 @@ def build_run_metadata(package_root: Path, site_root: Path | None) -> None:
             site_metadata = json.loads(site_path.read_text(encoding="utf-8"))
     payload = {
         "schema_version": 1,
-        "analysis_version": config["analysis_version"],
+        "analysis_version": package["analysis_version"],
+        "base_analysis_version": package["base_analysis_version"],
         "data_freeze_date": config["data_freeze_date"],
         "seed": config["random_settings"]["pipeline_seed"],
         "python_runtime_used_for_local_validation": platform.python_version(),
-        "source_version_record": "release/source_manifest_sha256.csv",
-        "key_output_record": "release/key_output_manifest_sha256.csv",
+        "base_source_version_record": "release/source_manifest_sha256.csv",
+        "base_key_output_record": "release/key_output_manifest_sha256.csv",
+        "r1_expected_results": "config/r1_expected_results.json",
+        "r1_result_validation_record": "docs/r1_result_validation_report.json",
+        "r1_site_validation_record": "docs/r1_site_validation_report.json",
         "source_workspace_git_history_available": False,
-        "site_export_identifier": site_metadata.get("source_analysis_identifier"),
-        "site_version": site_metadata.get("site_version"),
+        "repository": "https://github.com/LiaoZitong/COMPASS",
+        "release_tag": f"v{package['package_version']}",
+        "site_export_identifier": site_metadata.get(
+            "source_analysis_identifier", existing_metadata.get("site_export_identifier")
+        ),
+        "site_version": package["site_version"],
         "data_distribution": "Large public and provider-hosted inputs, including EPA ECOTOX, are obtained from their official services and are not mirrored in the compact GitHub code package.",
         "local_validation_commands": [
             "python -m unittest discover -s tests -v",
-            "python code/run_analysis.py --mode full --dry-run --seed 20260622",
-            "python code/validate_results.py --profile analysis",
-            "python code/audit_release.py --profile private",
+            "python code/revision_r1/run_revision_analysis.py --analysis-root <BHBT> --dry-run",
+            "python code/revision_r1/validate_revision_results.py --revision-root <R1-analysis>",
+            "python code/revision_r1/validate_revision_results.py --revision-root <R1-analysis> --site-data <R1-site-data>",
+            "python code/audit_release.py --profile public",
         ],
     }
-    write_json(package_root / "release/run_metadata.json", payload)
+    write_json(run_metadata_path, payload)
 
 
 def should_checksum(relative: Path) -> bool:

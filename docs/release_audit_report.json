@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "profile": "public",
-  "files_scanned": 113,
-  "checks": 1327,
+  "files_scanned": 117,
+  "checks": 1375,
   "failed": 0,
   "all_passed": true,
   "failures": []

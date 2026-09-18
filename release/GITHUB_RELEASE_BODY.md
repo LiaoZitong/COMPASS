@@ -1,4 +1,4 @@
-## COMPASS R1 reproducibility release
+## COMPASS revision reproducibility release 1.0.1
 
 This is the versioned code release supporting the R1 revision of “Developing
 Complementary Aquatic Sentinel Panels for Cross-Chemical Monitoring and Regional
@@ -7,9 +7,10 @@ Localization.”
 ## Scope
 
 - Base COMPASS analysis code, semantic stages 01–22
-- Ordered R1 AP01/AP02/AP05/AP03A/AP03B/AP04/G3 revision analyses
+- Ordered AP01/AP02/AP05/AP03A/AP03B/AP04/G3 revision analyses
+- Strict-LOO profile-likelihood and MNAR robustness stage with a frozen gate
 - Frozen R1 strict-LOO values and numerical validation contracts
-- Main-figure source and the publication-ready SI Figure S8/Table S7 builders
+- Main-figure source and the publication-ready SI Figure S6/S8 and Table S7 builders
 - Input/data-source contracts and an R1-specific static Explorer exporter
 
 ## Data boundary

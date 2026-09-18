@@ -19,10 +19,14 @@ base v16.5 pipeline alone. Execute the packages in this order:
    occurrence policies, and priority-chemical support reduction.
 7. **G3 — integration gate:** reconciles the six upstream packages and freezes
    manuscript-facing values.
+8. **Strict-LOO robustness:** propagates record-level profile likelihoods and
+   evaluates IPW/MNAR testing-selection scenarios using the approved strict-LOO
+   direct and full probability matrices.
 
 AP05 must follow AP02; AP03A requires AP02 and AP05; AP03B requires AP02 and
-AP03A; AP04 checks every earlier gate; G3 is last. The runner enforces this
-order and refuses a resume when an earlier PASS gate is missing.
+AP03A; AP04 checks every earlier gate; G3 integrates the primary packages; and
+the robustness stage runs only after G3. The runner enforces this order and
+refuses a resume when an earlier PASS gate is missing.
 
 ## Command
 
@@ -47,9 +51,10 @@ earlier gates must be present and report `PASS`.
   --expected .\config\r1_expected_results.json
 ```
 
-The validator checks all seven gates, eligibility denominators, the R1 Top-20,
+The validator checks all eight gates, eligibility denominators, the R1 Top-20,
 12 capture checkpoints, three dependence values, available-member validation,
-follow-up counts, regional gains/fallbacks, and—when supplied—the site export.
+follow-up counts, regional gains/fallbacks, strict-LOO profile/MNAR checkpoints,
+and—when supplied—the site export.
 
 ## Data and claim boundaries
 

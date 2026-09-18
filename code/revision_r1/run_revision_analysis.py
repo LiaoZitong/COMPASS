@@ -18,6 +18,7 @@ STEPS = (
     ("05_ap03_module_b", "run_ap03_module_b.py"),
     ("06_ap04_localization_sensitivity", "run_ap04_localization_sensitivity.py"),
     ("07_g3_cross_package_integration", "run_g3_cross_package_integration.py"),
+    ("08_strict_loo_robustness", "run_strict_loo_robustness.py"),
 )
 
 
@@ -100,6 +101,25 @@ def command_for(
             sys.executable, str(script), "--analysis-root", str(out),
             "--out", str(directories[name]),
         ]
+    if name == "08_strict_loo_robustness":
+        return [
+            sys.executable,
+            str(script),
+            "--project-root",
+            str(root),
+            "--revision-root",
+            str(out),
+            "--output-dir",
+            str(directories[name]),
+            "--profile-draws",
+            "2000",
+            "--seed",
+            "20260622",
+            "--odds-ratios",
+            "0.25,0.5,1,2,4",
+            "--negative-ratio",
+            "10",
+        ]
     raise KeyError(name)
 
 
@@ -111,6 +131,8 @@ def require_resume_gates(out: Path, start_index: int) -> None:
         "04_ap03_module_a": "gate_ap03a.json",
         "05_ap03_module_b": "gate_ap03b.json",
         "06_ap04_localization_sensitivity": "gate_ap04.json",
+        "07_g3_cross_package_integration": "gate_g3.json",
+        "08_strict_loo_robustness": "gate_strict_loo_robustness.json",
     }
     for name, _script in STEPS[:start_index]:
         gate_name = gates.get(name)

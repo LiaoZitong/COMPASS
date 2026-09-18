@@ -1,7 +1,7 @@
 {
   "upload_type": "software",
   "title": "COMPASS R1 core reproducibility code",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publication_date": "2026-09-18",
   "description": "Core code for the R1 strict focal-species leave-one-out COMPASS aquatic sentinel-panel analysis. Large public and provider-hosted inputs, including EPA ECOTOX, are obtained from their official services and are not mirrored in the compact GitHub code package.",
   "creators": [
@@ -23,5 +23,5 @@
     "species sensitivity distribution",
     "reproducible research"
   ],
-  "notes": "Prepared metadata only. No Zenodo deposition or DOI is claimed for this release. The verifiable public software identifier is the GitHub v1.0.0 release tag."
+  "notes": "Prepared metadata only. No Zenodo deposition or DOI is claimed for this release. The verifiable public software identifier is the GitHub v1.0.1 release tag."
 }

@@ -17,7 +17,7 @@
 - [x] Repository name confirmed as `COMPASS`.
 - [x] Initial repository visibility confirmed as private.
 - [x] Public source-availability terms selected: publicly viewable, all rights reserved; no open-source reuse grant is implied.
-- [x] Citation metadata synchronized to the R1 author list and version 1.0.0.
+- [x] Citation metadata synchronized to the author list and version 1.0.1.
 - [x] Static site uses a separate Sites deployment with public access.
 
 ## Remote release
@@ -25,7 +25,7 @@
 - [x] Git repository initialized only inside this independent package after approval.
 - [x] Inspect staged files before commit; never use `git add -f`.
 - [x] Private `LiaoZitong/COMPASS` remote, `main` branch, and web contents verified.
-- [x] Create the tested `v1.0.0` release tag after the final validation commit.
+- [x] Create the tested `v1.0.1` release tag after the final validation commit.
 - [x] Record that no Zenodo deposition or DOI is claimed; a future deposition requires a separate author decision.
 - [x] Update citation, version page, and data-availability statement with the verifiable GitHub repository and release tag.
 - [x] Public companion site configured; each update is tested locally in desktop, mobile-width, interaction, and private contexts before deployment.

@@ -1,6 +1,6 @@
 # Release validation report
 
-Release candidate: `1.0.0`
+Release candidate: `1.0.1`
 Primary revision analysis: `R1-strict-LOO-2026-09-18`
 Base analysis: `v16.5`
 Data freeze: `2026-08-02`
@@ -16,10 +16,10 @@ not redistributed; their contracts and hashes remain documented.
 |---|---:|
 | Python compilation | pass |
 | Base data-free unit tests | 8/8 pass |
-| R1 data-free/integration test entry points | 13/13 pass |
-| Ordered R1 runner dry run | 7/7 steps in the frozen dependency order |
-| R1 analysis validation | 41/41 pass |
-| R1 analysis plus Explorer cross-check | 47/47 pass |
+| R1 data-free/integration test assertions | 16/16 pass |
+| Ordered R1 runner dry run | 8/8 steps in the frozen dependency order |
+| R1 analysis validation | 56/56 pass |
+| R1 analysis plus Explorer cross-check | 62/62 pass |
 | Public-source path, secret, marker, extension, size, and licence-notice audit | pass; zero failures |
 
 The numerical validation reads the completed R1 gates rather than rerunning the
@@ -46,6 +46,9 @@ authors, and the release task verifies that exact frozen state.
   points; PA, TN, and WV retain the national fallback.
 - Explorer export: 2,144 unique species, 6,432 prefix-target values, 51 state/DC
   records, 51 map geometries, and the same R1 Top-20/capture checkpoints.
+- Strict-LOO robustness: 24,254 profiled cells across 413 contexts; 17,037
+  directly observed species-target pairs in the MNAR propensity layer; unchanged
+  Top-5 membership across odds ratios 0.25–4.
 
 Machine-readable evidence is stored in `docs/r1_result_validation_report.json`,
 `docs/r1_site_validation_report.json`, `docs/release_audit_report.json`,
@@ -53,7 +56,7 @@ Machine-readable evidence is stored in `docs/r1_result_validation_report.json`,
 
 ## External release record
 
-The release target is https://github.com/LiaoZitong/COMPASS with tag `v1.0.0`.
+The release target is https://github.com/LiaoZitong/COMPASS with tag `v1.0.1`.
 The repository uses the included all-rights-reserved source-availability notice;
 no open-source reuse licence or archival DOI is claimed. The release tag and
 full commit SHA are verified after push and are then synchronized into the

@@ -1,4 +1,9 @@
-# Public-code audit
+# Base v16.5 public-code audit (historical)
+
+This audit describes the original compact v16.5 package. The R1 release adds
+the ordered revision workflow under `code/revision_r1/`; current release-wide
+checks are recorded in `docs/release_audit_report.json` and the R1 validation
+reports.
 
 Audit date: 2026-08-08. Source analysis: frozen COMPASS/BHBT v16.5.
 

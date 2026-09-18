@@ -1,21 +1,40 @@
-# Static site-data export
+# Static R1 site-data export
 
-`code/export_site_data.py` is the sole analysis-to-site export path. It reads frozen result tables directly and writes versioned JSON plus flattened CSV downloads. It does not read Word, PDF, screenshots, or figure pixels.
+`code/revision_r1/export_r1_site_data.py` is the release path from the approved
+R1 analysis to the browser-readable Explorer files. It reads the strict-LOO R1
+probability matrices, the AP05 dependence audit, the AP04 localization ledger,
+the Figure 2/5 source tables, and unchanged base metadata inputs. It does not
+read Word, PDF, screenshots, or figure pixels.
 
-The exporter reproduces the frozen lower-5% Top-20 sequence and then continues the deterministic lower-5% greedy objective through all 2,144 candidate species. Every fixed-sequence prefix is evaluated at the lower-5%, lower-10%, and lower-20% targets with the target-specific frozen probability matrix, national chemical weights, and Gaussian-copula working dependence parameter. The 60 published rank-1--20 values are required to match before export; ranks 21--2,144 are explicitly labeled as post hoc extended-prefix evaluations. Regional outputs retain the 32 frozen lower-5% localized panels and add documented national-default records for all other states and the District of Columbia. The map geometry is generated from the separately obtained U.S. Census 2024 1:500,000 state cartographic boundary archive. Expected capture remains a probability in exported files; the browser formats it as a percentage. Absolute gains are stored and displayed in percentage points.
-
-The export therefore requires all three frozen probability matrices, `results/weights/national_priority_chemicals.csv`, `results/panels/panel_probability_manifest.json`, and `data/external/cb_2024_us_state_500k.zip` in addition to the previously documented result tables.
+The exporter requires exact reproduction of all 60 frozen R1 Figure 2 prefix
+values before it extends the lower-5% greedy sequence through all 2,144
+candidates. Every fixed-sequence prefix is evaluated at the lower-5%,
+lower-10%, and lower-20% targets with the corresponding strict-LOO matrix,
+national chemical weights, and target-specific AP05 dependence value. Ranks
+21–2,144 are explicitly labeled as extended post hoc evaluations. Regional
+outputs retain the 32 approved R1 localized panels, the PA/TN/WV national-panel
+fallbacks, and documented defaults for states outside the 35-state occurrence
+weight universe. Census 2024 state geometry is obtained separately.
 
 Example:
 
 ```powershell
-.\.venv\Scripts\python.exe .\code\export_site_data.py --analysis-root . --out .\outputs\site_data
+.\.venv\Scripts\python.exe .\code\revision_r1\export_r1_site_data.py `
+  --analysis-root . `
+  --revision-root .\results\revision_r1 `
+  --out .\outputs\site_data `
+  --boundary-zip .\data\external\cb_2024_us_state_500k.zip `
+  --git-commit <full-commit-sha> `
+  --github-release https://github.com/LiaoZitong/COMPASS/releases/tag/v1.0.0
+
+.\.venv\Scripts\python.exe .\code\revision_r1\validate_revision_results.py `
+  --revision-root .\results\revision_r1 `
+  --expected .\config\r1_expected_results.json `
+  --site-data .\outputs\site_data
 ```
 
-Copy the complete generated directory to the independent `COMPASS_Site_Package/site_data/`, build the site, then run:
-
-```powershell
-.\.venv\Scripts\python.exe .\code\validate_results.py --root . --profile release --site-data ..\COMPASS_Site_Package\site_data
-```
-
-The export records source-file checksums and a combined source-analysis identifier. Repository commit, release, and DOI fields remain null until those objects exist and must be updated in one release-metadata step.
+Copy the complete generated directory to the independent site package, build
+and validate the site, push that exact site source state, then save and deploy
+the matching Sites version. The export records source hashes, the Git commit,
+the GitHub release URL, and a combined R1 source-analysis identifier. The DOI
+field remains null unless a real archival DOI has been returned and verified.

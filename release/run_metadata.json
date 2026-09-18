@@ -1,19 +1,25 @@
 {
   "schema_version": 1,
-  "analysis_version": "v16.5",
+  "analysis_version": "R1-strict-LOO-2026-09-18",
+  "base_analysis_version": "v16.5",
   "data_freeze_date": "2026-08-02",
   "seed": 20260622,
   "python_runtime_used_for_local_validation": "3.11.9",
-  "source_version_record": "release/source_manifest_sha256.csv",
-  "key_output_record": "release/key_output_manifest_sha256.csv",
+  "base_source_version_record": "release/source_manifest_sha256.csv",
+  "base_key_output_record": "release/key_output_manifest_sha256.csv",
+  "r1_expected_results": "config/r1_expected_results.json",
+  "r1_result_validation_record": "docs/r1_result_validation_report.json",
+  "r1_site_validation_record": "docs/r1_site_validation_report.json",
   "source_workspace_git_history_available": false,
-  "site_export_identifier": "daa63eba04202b83efb9cf108f5052cd568966e1d5583559c8fb7d158bd8ca20",
-  "site_version": "0.2.0",
+  "repository": "https://github.com/LiaoZitong/COMPASS",
+  "release_tag": "v1.0.0",
+  "site_version": "1.0.0",
   "data_distribution": "Large public and provider-hosted inputs, including EPA ECOTOX, are obtained from their official services and are not mirrored in the compact GitHub code package.",
   "local_validation_commands": [
     "python -m unittest discover -s tests -v",
-    "python code/run_analysis.py --mode full --dry-run --seed 20260622",
-    "python code/validate_results.py --profile analysis",
-    "python code/audit_release.py --profile private"
+    "python code/revision_r1/run_revision_analysis.py --analysis-root <BHBT> --dry-run",
+    "python code/revision_r1/validate_revision_results.py --revision-root <R1-analysis>",
+    "python code/revision_r1/validate_revision_results.py --revision-root <R1-analysis> --site-data <R1-site-data>",
+    "python code/audit_release.py --profile public"
   ]
 }

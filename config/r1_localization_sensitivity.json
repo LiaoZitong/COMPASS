@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "analysis_id": "AP04_LOCALIZATION_SENSITIVITY",
+  "frozen_before_numerical_execution": true,
+  "protection_target_x": 0.95,
+  "panel_size": 5,
+  "minimum_priority_chemicals_for_localization": 3,
+  "minimum_candidate_species_for_localization": 5,
+  "chemical_weight_components": [
+    "detection_rank_state",
+    "concentration_rank_state",
+    "site_rank_state",
+    "analytical_invisibility_proxy"
+  ],
+  "chemical_weight_scenarios": {
+    "baseline_45_35_10_10": [0.45, 0.35, 0.10, 0.10],
+    "equal_25_25_25_25": [0.25, 0.25, 0.25, 0.25],
+    "detection_heavy_60_20_10_10": [0.60, 0.20, 0.10, 0.10],
+    "concentration_heavy_20_60_10_10": [0.20, 0.60, 0.10, 0.10],
+    "no_censoring_renormalized": [0.50, 0.3888888888888889, 0.1111111111111111, 0.0],
+    "detection_plus_0p10_renormalized": [0.50, 0.3181818181818182, 0.09090909090909091, 0.09090909090909091],
+    "detection_minus_0p10_renormalized": [0.3888888888888889, 0.3888888888888889, 0.1111111111111111, 0.1111111111111111],
+    "concentration_plus_0p10_renormalized": [0.4090909090909091, 0.4090909090909091, 0.09090909090909091, 0.09090909090909091],
+    "concentration_minus_0p10_renormalized": [0.50, 0.2777777777777778, 0.1111111111111111, 0.1111111111111111],
+    "site_plus_0p10_renormalized": [0.4090909090909091, 0.3181818181818182, 0.18181818181818182, 0.09090909090909091],
+    "site_minus_0p10_renormalized": [0.50, 0.3888888888888889, 0.0, 0.1111111111111111],
+    "censoring_plus_0p10_renormalized": [0.4090909090909091, 0.3181818181818182, 0.09090909090909091, 0.18181818181818182],
+    "censoring_minus_0p10_renormalized": [0.50, 0.3888888888888889, 0.1111111111111111, 0.0]
+  },
+  "species_policy_scenarios": {
+    "soft_baseline": "Use the stage-20 soft-local species weight and retain candidates with weight >= 0.05.",
+    "hard_exclude_current_or_unresolved_official_nas": "Apply the soft-baseline threshold, then exclude a state-species pair only when both official_state_nonindigenous_recorded and current_or_unresolved_record are true.",
+    "state_confirmed_only": "Retain only state-species pairs with exact_species_occurrence and eligible_state_candidate both true."
+  },
+  "data_reduction": {
+    "chemical_retention_fractions": [1.0, 0.75, 0.5, 0.25],
+    "chemical_retention_rule": "Within each state, rank without using toxicity outcomes by 0.5*normalized(log1p(n_result_records)) + 0.5*normalized(log1p(n_sites)); break ties by DTXSID; retain ceil(fraction*n).",
+    "species_evidence_tiers": {
+      "soft_all": "soft_local_species_weight >= 0.05",
+      "regional_breadth_or_better": "soft_all and soft_local_evidence_class is not model_transfer_low_weight",
+      "neighbor_or_state": "soft_all and soft_local_evidence_class is neighbor_occurrence or state_occurrence",
+      "state_confirmed": "exact_species_occurrence and eligible_state_candidate are both true"
+    },
+    "primary_reduced_data_evaluation": "Select on the reduced support set, then evaluate the selected panel on the complete baseline state chemical universe using baseline chemical weights and soft species weights.",
+    "secondary_reduced_data_evaluation": "Also report expected coverage on the reduced chemical subset used for selection."
+  },
+  "panel_selection": "Deterministic greedy independent-union surrogate used by BHBT stage 20, with alphabetical tie-breaking.",
+  "panel_evaluation": "Gaussian-copula union using the AP05 strict-LOO x=0.95 working dependence parameter.",
+  "fallback_policy": "Use the fixed AP02 national Top-5 if fewer than three priority chemicals or fewer than five policy-eligible candidate species remain; record the exact reason.",
+  "comparison_metrics": {
+    "membership": "Top-5 Jaccard similarity versus the state baseline panel.",
+    "order": "Normalized top-5 Spearman-footrule similarity on the union, assigning absent members rank 6; 1 is identical and 0 is disjoint.",
+    "coverage": "Percentage-point change in expected weighted joint coverage when both panels are evaluated on the complete baseline state universe."
+  },
+  "predeclared_weight_stability_labels": {
+    "classification_scope": "Nonbaseline weight scenarios among states that are localizable under the complete-data baseline; fallback states are reported separately and do not inflate stability.",
+    "high": "Across nonbaseline weight scenarios: median Jaccard >= 2/3, at least 80% of state-scenario comparisons have Jaccard >= 2/3, and mean absolute full-universe coverage change <= 2 percentage points.",
+    "moderate": "If high is not met: median Jaccard >= 3/7, at least 60% of comparisons have Jaccard >= 3/7, and mean absolute full-universe coverage change <= 5 percentage points.",
+    "sensitive": "Neither high nor moderate criteria are met."
+  },
+  "claim_constraints": [
+    "Occurrence evidence is a relevance signal and is not proof of native status, culturability, or field deployability.",
+    "Do not describe a sensitivity result as statistically significant unless an inferential test supports that wording.",
+    "Fallback states remain explicit and are not counted as localized panels.",
+    "Scientific wording follows the observed sensitivity; no robustness conclusion is fixed in advance."
+  ]
+}

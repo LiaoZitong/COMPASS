@@ -1,36 +1,60 @@
 # Release validation report
 
-Local release candidate: `0.2.0`
-Frozen analysis: `v16.5`
+Release candidate: `1.0.0`
+Primary revision analysis: `R1-strict-LOO-2026-09-18`
+Base analysis: `v16.5`
 Data freeze: `2026-08-02`
-Validation date: `2026-08-17`
+Validation date: `2026-09-18`
 
 ## Outcome
 
-The independent GitHub package passes all locally executable release checks. It contains the compact core code and documentation needed to prepare inputs and reproduce the workflow. Large public and provider-hosted datasets, including EPA ECOTOX, remain obtainable from their official services and are not mirrored in the repository.
+The compact package passes the locally executable release checks against the
+author-approved R1 analysis outputs. Third-party inputs and derived matrices are
+not redistributed; their contracts and hashes remain documented.
 
 | Check | Outcome |
 |---|---:|
 | Python compilation | pass |
-| Data-free unit tests | 8/8 pass |
-| Full 22-stage dry run | pass |
-| Frozen analysis/site consistency | 51/51 pass |
-| Static-site automated validation | 34/34 pass |
-| Private-release path, secret, marker, extension, and size audit | 942/942 pass |
-| Chromium Edge desktop, 500-pixel mobile, interaction, and private-context QA | 10 screenshots; pass |
+| Base data-free unit tests | 8/8 pass |
+| R1 data-free/integration test entry points | 13/13 pass |
+| Ordered R1 runner dry run | 7/7 steps in the frozen dependency order |
+| R1 analysis validation | 41/41 pass |
+| R1 analysis plus Explorer cross-check | 47/47 pass |
+| Public-source path, secret, marker, extension, size, and licence-notice audit | pass; zero failures |
 
-The dry run reports eight externally acquired inputs in the compact checkout. This is expected because the large source datasets are distributed through their official services. Required filenames, provider links, access dates, and field contracts are documented under `data/`.
+The numerical validation reads the completed R1 gates rather than rerunning the
+approved computationally intensive analysis. This is intentional: the R1
+analysis had already been executed in dependency order and approved by the
+authors, and the release task verifies that exact frozen state.
 
-## Frozen checkpoints
+## R1 checkpoints
 
-- National Top-5: *Gastrophryne carolinensis*, *Daphnia ambigua*, *Neocloeon triangulifer*, *Daphnia magna*, and *Hyalella azteca*.
-- The site export contains a complete, unique ordering of all 2,144 formal-binomial candidates. Ranks 1-20 reproduce the frozen panel sequence; ranks 21-2,144 continue the same deterministic greedy selection objective and are explicitly scope-labeled.
-- Cumulative expected capture is present for all 2,144 prefixes at all three targets (6,432 values). The exporter reproduces the 60 frozen rank-1--20 curve values before accepting the post hoc extension.
-- Fixed Top-5 expected capture: 30.6% at lower-5%, 58.0% at lower-10%, and 87.7% at lower-20%.
-- Regional export: all 50 states plus the District of Columbia. Thirty-two have frozen localized panels; the other 19 show the fixed national Top-5 as a documented default without fabricating localized estimates. PA, TN, and WV each have one eligible priority chemical.
-- The interactive map contains 51 Census-derived geometries, synchronized map/menu selection, selected-state emphasis, and five-species hover/focus details.
-- Complete machine-readable comparisons are recorded in `release/result_crosswalk.csv` and `config/expected_results.json`.
+- Eligibility: 426,588 records; 2,026 eligible protective SSD contexts; 1,613
+  originally n ≥ 6 strict-LOO contexts; 413 originally n = 5 diagnostics; 2,144
+  candidate species.
+- National Top-5: *Gastrophryne carolinensis*, *Neocloeon triangulifer*,
+  *Hyalella azteca*, *Daphnia ambigua*, and *Daphnia magna*.
+- Fixed x = 0.95 Top-5 expected capture: 33.776% at lower-5%, 62.410% at
+  lower-10%, and 88.775% at lower-20%.
+- Working dependence: 0.132467, 0.119452, and 0.117446 at x = 0.95, 0.90, and
+  0.80, respectively.
+- Available-member validation: n = 115; Spearman ρ = 0.847290; no chemical has
+  all five panel members measured.
+- Follow-up ranking: 639 primary-score chemicals; 145 mortality-excluded
+  scoreable and 494 not scoreable.
+- Localization: 32 supported states; mean model-expected gain 6.7506 percentage
+  points; PA, TN, and WV retain the national fallback.
+- Explorer export: 2,144 unique species, 6,432 prefix-target values, 51 state/DC
+  records, 51 map geometries, and the same R1 Top-20/capture checkpoints.
 
-## Pending external release checks
+Machine-readable evidence is stored in `docs/r1_result_validation_report.json`,
+`docs/r1_site_validation_report.json`, `docs/release_audit_report.json`,
+`config/r1_expected_results.json`, and `release/checksums.sha256`.
 
-Public-license approval, release tagging, Zenodo archiving, DOI insertion, and a Google Chrome-specific pass remain for the eventual public archival code release. The GitHub repository remains private while the license decision is pending; the companion results site is deployed separately with public access.
+## External release record
+
+The release target is https://github.com/LiaoZitong/COMPASS with tag `v1.0.0`.
+The repository uses the included all-rights-reserved source-availability notice;
+no open-source reuse licence or archival DOI is claimed. The release tag and
+full commit SHA are verified after push and are then synchronized into the
+manuscript, response letter, cover letter, and Explorer metadata.

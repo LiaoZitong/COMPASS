@@ -1,9 +1,9 @@
 claim,value,analysis_source,site_source
-national_top5,Gastrophryne carolinensis | Daphnia ambigua | Neocloeon triangulifer | Daphnia magna | Hyalella azteca,results/panels/national_panel_sequences.csv,site_data/national_sequence.json
-fixed_top5_expected_capture_0.95,0.3055373085768701,results/panels/fixed_national_top5_cross_target_audit.csv,site_data/coverage.json
-fixed_top5_expected_capture_0.9,0.5802658236765964,results/panels/fixed_national_top5_cross_target_audit.csv,site_data/coverage.json
-fixed_top5_expected_capture_0.8,0.8765105591257389,results/panels/fixed_national_top5_cross_target_audit.csv,site_data/coverage.json
-regional_supported_states,32,results/state_panels/state_x95_k5_soft_local_comparison.csv,site_data/regional.json
-regional_mean_gain_percentage_points,6.987331580591262,results/state_panels/state_x95_k5_soft_local_comparison.csv,site_data/regional.json
-top5_apical_spearman,0.8472895131381678,results/warning_hc5_bridge/top5_panel_apical_hc5_positive_control_metrics.csv,not displayed
-warning_spearman,0.7811565042428483,results/warning_hc5_bridge/top5_panel_warning_hc5_metrics.csv,not displayed
+national_top5,Gastrophryne carolinensis | Neocloeon triangulifer | Hyalella azteca | Daphnia ambigua | Daphnia magna,R1 AP02 figure_02a_top_k_curves.csv,site_data/national_sequence.json
+fixed_x95_sequence_expected_capture_0.95,0.3377643309990005,R1 AP02 figure_02a_top_k_curves.csv,site_data/coverage.json
+fixed_x95_sequence_expected_capture_0.9,0.6240965136220257,R1 AP02 figure_02a_top_k_curves.csv,site_data/coverage.json
+fixed_x95_sequence_expected_capture_0.8,0.8877548283207125,R1 AP02 figure_02a_top_k_curves.csv,site_data/coverage.json
+regional_supported_states,32,R1 AP04 ap04_state_support_and_fallback_ledger.csv,site_data/regional.json
+regional_mean_gain_percentage_points,6.750579285927929,R1 AP04 ap04_state_support_and_fallback_ledger.csv,site_data/regional.json
+available_member_spearman,0.8472895131381678,R1 G3 g3_authoritative_numeric_freeze.json,not displayed
+mortality_excluded_scoreable_chemicals,145,R1 G3 g3_authoritative_numeric_freeze.json,not displayed

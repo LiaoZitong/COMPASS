@@ -1,10 +1,16 @@
+## COMPASS R1 reproducibility release
+
+This is the versioned code release supporting the R1 revision of “Developing
+Complementary Aquatic Sentinel Panels for Cross-Chemical Monitoring and Regional
+Localization.”
+
 ## Scope
 
-- Core COMPASS analysis code, stages 01–22
-- Five main-figure scripts
-- Frozen v16.5 settings and numerical checkpoints
-- Input and data-source contracts
-- Static explorer export and cross-package validation
+- Base COMPASS analysis code, semantic stages 01–22
+- Ordered R1 AP01/AP02/AP05/AP03A/AP03B/AP04/G3 revision analyses
+- Frozen R1 strict-LOO values and numerical validation contracts
+- Main-figure source and the publication-ready SI Figure S8/Table S7 builders
+- Input/data-source contracts and an R1-specific static Explorer exporter
 
 ## Data boundary
 
@@ -12,4 +18,10 @@ Primary inputs include large public and provider-hosted resources such as EPA EC
 
 ## Reproducibility status
 
-Insert the final local validation summary, commit SHA, archive checksum, and Zenodo DOI only after the tagged release passes all checks.
+The tagged source state passed the data-free unit/assertion suite, Python compile
+check, R1 numerical validation, public-source audit, site-data cross-check, and
+tracked-file checksum verification. See `docs/release_validation_report.md` and
+`release/checksums.sha256` for the machine-readable evidence.
+
+The Git tag and commit identify this release. No archival DOI is claimed unless
+and until a separate archive returns a verified identifier.

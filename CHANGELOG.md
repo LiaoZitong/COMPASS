@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0 — 2026-09-18
+
+- Promoted the reviewer-requested strict focal-species leave-one-out analysis to the R1 primary probability layer.
+- Added the ordered AP01 → AP02 → AP05 → AP03A → AP03B → AP04 → G3 revision workflow and data-free assertion tests.
+- Froze the R1 national Top-20, target-specific dependence values, available-member validation, follow-up-ranking sensitivity, and 35-state localization/fallback ledger.
+- Added an R1-specific Explorer exporter and release validator; the exporter binds the website to the same Git commit and tagged release.
+- Updated package, citation, source-availability, and release metadata for the formal R1 release.
+
 ## 0.2.0 — 2026-08-17
 
 - Evaluated cumulative expected capture for every prefix of the complete 2,144-species national sequence at all three frozen targets.

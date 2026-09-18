@@ -1,0 +1,430 @@
+{
+  "schema_version": 1,
+  "profile": "R1 strict-LOO release",
+  "checks": 47,
+  "failed": 0,
+  "all_passed": true,
+  "results": [
+    {
+      "name": "gate_AP01",
+      "passed": true,
+      "observed": "PASS",
+      "expected": "PASS",
+      "source": "gate_ap01.json"
+    },
+    {
+      "name": "gate_AP02",
+      "passed": true,
+      "observed": "PASS",
+      "expected": "PASS",
+      "source": "gate_ap02.json"
+    },
+    {
+      "name": "gate_AP05",
+      "passed": true,
+      "observed": "PASS",
+      "expected": "PASS",
+      "source": "gate_ap05.json"
+    },
+    {
+      "name": "gate_AP03A",
+      "passed": true,
+      "observed": "PASS",
+      "expected": "PASS",
+      "source": "gate_ap03a.json"
+    },
+    {
+      "name": "gate_AP03B",
+      "passed": true,
+      "observed": "PASS",
+      "expected": "PASS",
+      "source": "gate_ap03b.json"
+    },
+    {
+      "name": "gate_AP04",
+      "passed": true,
+      "observed": "PASS",
+      "expected": "PASS",
+      "source": "gate_ap04.json"
+    },
+    {
+      "name": "gate_G3",
+      "passed": true,
+      "observed": "PASS",
+      "expected": "PASS",
+      "source": "gate_g3.json"
+    },
+    {
+      "name": "eligibility_eligible_records",
+      "passed": true,
+      "observed": 426588,
+      "expected": 426588,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "eligibility_eligible_contexts",
+      "passed": true,
+      "observed": 2026,
+      "expected": 2026,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "eligibility_strict_loo_contexts",
+      "passed": true,
+      "observed": 1613,
+      "expected": 1613,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "eligibility_n5_diagnostic_contexts",
+      "passed": true,
+      "observed": 413,
+      "expected": 413,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "eligibility_candidate_species",
+      "passed": true,
+      "observed": 2144,
+      "expected": 2144,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "national_top20",
+      "passed": true,
+      "observed": [
+        "Gastrophryne carolinensis",
+        "Neocloeon triangulifer",
+        "Hyalella azteca",
+        "Daphnia ambigua",
+        "Daphnia magna",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus fasciatus",
+        "Gammarus lacustris",
+        "Moina macrocopa",
+        "Gammarus pulex",
+        "Paratya australiensis",
+        "Gammarus pseudolimnaeus",
+        "Ceriodaphnia reticulata",
+        "Dugesia japonica",
+        "Chironomus dilutus",
+        "Daphnia similis",
+        "Echinogammarus tibaldii",
+        "Gammarus fossarum"
+      ],
+      "expected": [
+        "Gastrophryne carolinensis",
+        "Neocloeon triangulifer",
+        "Hyalella azteca",
+        "Daphnia ambigua",
+        "Daphnia magna",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus fasciatus",
+        "Gammarus lacustris",
+        "Moina macrocopa",
+        "Gammarus pulex",
+        "Paratya australiensis",
+        "Gammarus pseudolimnaeus",
+        "Ceriodaphnia reticulata",
+        "Dugesia japonica",
+        "Chironomus dilutus",
+        "Daphnia similis",
+        "Echinogammarus tibaldii",
+        "Gammarus fossarum"
+      ],
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.95_k1",
+      "passed": true,
+      "observed": 0.0950389389703015,
+      "expected": 0.0950389389703015,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.95_k5",
+      "passed": true,
+      "observed": 0.3377643309990005,
+      "expected": 0.3377643309990005,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.95_k10",
+      "passed": true,
+      "observed": 0.5044113657739119,
+      "expected": 0.5044113657739119,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.95_k20",
+      "passed": true,
+      "observed": 0.6712077124278809,
+      "expected": 0.6712077124278809,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.9_k1",
+      "passed": true,
+      "observed": 0.2241698603308986,
+      "expected": 0.2241698603308986,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.9_k5",
+      "passed": true,
+      "observed": 0.6240965136220257,
+      "expected": 0.6240965136220257,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.9_k10",
+      "passed": true,
+      "observed": 0.8037351637820873,
+      "expected": 0.8037351637820873,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.9_k20",
+      "passed": true,
+      "observed": 0.916221861089732,
+      "expected": 0.9162218610897321,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.8_k1",
+      "passed": true,
+      "observed": 0.4494116943045675,
+      "expected": 0.4494116943045675,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.8_k5",
+      "passed": true,
+      "observed": 0.8877548283207125,
+      "expected": 0.8877548283207125,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.8_k10",
+      "passed": true,
+      "observed": 0.9709603612889612,
+      "expected": 0.9709603612889612,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "capture_x0.8_k20",
+      "passed": true,
+      "observed": 0.9943098068620642,
+      "expected": 0.9943098068620642,
+      "source": "figure_02a_top_k_curves.csv"
+    },
+    {
+      "name": "rho_x0.95",
+      "passed": true,
+      "observed": 0.1324669416086028,
+      "expected": 0.1324669416086028,
+      "source": "ap05_rho_estimation_audit.csv"
+    },
+    {
+      "name": "rho_x0.9",
+      "passed": true,
+      "observed": 0.1194522000576604,
+      "expected": 0.1194522000576604,
+      "source": "ap05_rho_estimation_audit.csv"
+    },
+    {
+      "name": "rho_x0.8",
+      "passed": true,
+      "observed": 0.1174459102122268,
+      "expected": 0.1174459102122268,
+      "source": "ap05_rho_estimation_audit.csv"
+    },
+    {
+      "name": "regional_supported_states",
+      "passed": true,
+      "observed": 32,
+      "expected": 32,
+      "source": "ap04_state_support_and_fallback_ledger.csv"
+    },
+    {
+      "name": "regional_mean_localized_expected_capture",
+      "passed": true,
+      "observed": 0.14252235889057618,
+      "expected": 0.14252235889057618,
+      "source": "ap04_state_support_and_fallback_ledger.csv"
+    },
+    {
+      "name": "regional_mean_national_expected_capture",
+      "passed": true,
+      "observed": 0.0750165660312969,
+      "expected": 0.0750165660312969,
+      "source": "ap04_state_support_and_fallback_ledger.csv"
+    },
+    {
+      "name": "regional_mean_gain_percentage_points",
+      "passed": true,
+      "observed": 6.7505792859279286,
+      "expected": 6.7505792859279286,
+      "source": "ap04_state_support_and_fallback_ledger.csv"
+    },
+    {
+      "name": "regional_max_gain_state",
+      "passed": true,
+      "observed": "CT",
+      "expected": "CT",
+      "source": "ap04_state_support_and_fallback_ledger.csv"
+    },
+    {
+      "name": "regional_max_gain_percentage_points",
+      "passed": true,
+      "observed": 10.16026314743147,
+      "expected": 10.16026314743147,
+      "source": "ap04_state_support_and_fallback_ledger.csv"
+    },
+    {
+      "name": "regional_fallback_states",
+      "passed": true,
+      "observed": {
+        "PA": 1,
+        "TN": 1,
+        "WV": 1
+      },
+      "expected": {
+        "PA": 1,
+        "TN": 1,
+        "WV": 1
+      },
+      "source": "ap04_state_support_and_fallback_ledger.csv"
+    },
+    {
+      "name": "available_member_n",
+      "passed": true,
+      "observed": 115,
+      "expected": 115,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "available_member_spearman",
+      "passed": true,
+      "observed": 0.8472895131381678,
+      "expected": 0.8472895131381678,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "available_member_full_top5",
+      "passed": true,
+      "observed": 0,
+      "expected": 0,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "followup_all_ranked_chemicals",
+      "passed": true,
+      "observed": 639,
+      "expected": 639,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "followup_mortality_excluded_scoreable",
+      "passed": true,
+      "observed": 145,
+      "expected": 145,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "followup_mortality_excluded_not_scoreable",
+      "passed": true,
+      "observed": 494,
+      "expected": 494,
+      "source": "g3_authoritative_numeric_freeze.json"
+    },
+    {
+      "name": "site_national_top20",
+      "passed": true,
+      "observed": [
+        "Gastrophryne carolinensis",
+        "Neocloeon triangulifer",
+        "Hyalella azteca",
+        "Daphnia ambigua",
+        "Daphnia magna",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus fasciatus",
+        "Gammarus lacustris",
+        "Moina macrocopa",
+        "Gammarus pulex",
+        "Paratya australiensis",
+        "Gammarus pseudolimnaeus",
+        "Ceriodaphnia reticulata",
+        "Dugesia japonica",
+        "Chironomus dilutus",
+        "Daphnia similis",
+        "Echinogammarus tibaldii",
+        "Gammarus fossarum"
+      ],
+      "expected": [
+        "Gastrophryne carolinensis",
+        "Neocloeon triangulifer",
+        "Hyalella azteca",
+        "Daphnia ambigua",
+        "Daphnia magna",
+        "Ceriodaphnia dubia",
+        "Daphnia pulex",
+        "Daphnia carinata",
+        "Gammarus fasciatus",
+        "Gammarus lacustris",
+        "Moina macrocopa",
+        "Gammarus pulex",
+        "Paratya australiensis",
+        "Gammarus pseudolimnaeus",
+        "Ceriodaphnia reticulata",
+        "Dugesia japonica",
+        "Chironomus dilutus",
+        "Daphnia similis",
+        "Echinogammarus tibaldii",
+        "Gammarus fossarum"
+      ],
+      "source": "national_sequence.json"
+    },
+    {
+      "name": "site_capture_x0.95_k5",
+      "passed": true,
+      "observed": 0.33776433099900055,
+      "expected": 0.3377643309990005,
+      "source": "coverage.json"
+    },
+    {
+      "name": "site_capture_x0.9_k5",
+      "passed": true,
+      "observed": 0.6240965136220255,
+      "expected": 0.6240965136220257,
+      "source": "coverage.json"
+    },
+    {
+      "name": "site_capture_x0.8_k5",
+      "passed": true,
+      "observed": 0.8877548283207123,
+      "expected": 0.8877548283207125,
+      "source": "coverage.json"
+    },
+    {
+      "name": "site_supported_states",
+      "passed": true,
+      "observed": 32,
+      "expected": 32,
+      "source": "regional.json"
+    },
+    {
+      "name": "site_analysis_version",
+      "passed": true,
+      "observed": "R1-strict-LOO-2026-09-18",
+      "expected": "R1-strict-LOO-2026-09-18",
+      "source": "metadata.json"
+    }
+  ]
+}

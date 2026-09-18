@@ -153,22 +153,22 @@ def build_output_manifest(package_root: Path, analysis_root: Path) -> None:
 
 
 def build_crosswalk(package_root: Path) -> None:
-    expected = json.loads((package_root / "config/expected_results.json").read_text(encoding="utf-8"))
+    expected = json.loads((package_root / "config/r1_expected_results.json").read_text(encoding="utf-8"))
     rows: list[dict[str, Any]] = []
     rows.append(
         {
             "claim": "national_top5",
-            "value": " | ".join(expected["national_top10"][:5]),
-            "analysis_source": "results/panels/national_panel_sequences.csv",
+            "value": " | ".join(expected["national_top20"][:5]),
+            "analysis_source": "R1 AP02 figure_02a_top_k_curves.csv",
             "site_source": "site_data/national_sequence.json",
         }
     )
-    for target, value in expected["fixed_top5_expected_capture"].items():
+    for target, value in expected["fixed_x95_sequence_expected_capture"].items():
         rows.append(
             {
-                "claim": f"fixed_top5_expected_capture_{target}",
+                "claim": f"fixed_x95_sequence_expected_capture_{target}",
                 "value": format(float(value), ".16g"),
-                "analysis_source": "results/panels/fixed_national_top5_cross_target_audit.csv",
+                "analysis_source": "R1 AP02 figure_02a_top_k_curves.csv",
                 "site_source": "site_data/coverage.json",
             }
         )
@@ -178,25 +178,25 @@ def build_crosswalk(package_root: Path) -> None:
             {
                 "claim": "regional_supported_states",
                 "value": str(regional["supported_states"]),
-                "analysis_source": "results/state_panels/state_x95_k5_soft_local_comparison.csv",
+                "analysis_source": "R1 AP04 ap04_state_support_and_fallback_ledger.csv",
                 "site_source": "site_data/regional.json",
             },
             {
                 "claim": "regional_mean_gain_percentage_points",
                 "value": format(float(regional["mean_gain_percentage_points"]), ".16g"),
-                "analysis_source": "results/state_panels/state_x95_k5_soft_local_comparison.csv",
+                "analysis_source": "R1 AP04 ap04_state_support_and_fallback_ledger.csv",
                 "site_source": "site_data/regional.json",
             },
             {
-                "claim": "top5_apical_spearman",
-                "value": format(float(expected["top5_apical"]["spearman_r"]), ".16g"),
-                "analysis_source": "results/warning_hc5_bridge/top5_panel_apical_hc5_positive_control_metrics.csv",
+                "claim": "available_member_spearman",
+                "value": format(float(expected["available_member_validation"]["spearman_rho"]), ".16g"),
+                "analysis_source": "R1 G3 g3_authoritative_numeric_freeze.json",
                 "site_source": "not displayed",
             },
             {
-                "claim": "warning_spearman",
-                "value": format(float(expected["warning"]["spearman_r"]), ".16g"),
-                "analysis_source": "results/warning_hc5_bridge/top5_panel_warning_hc5_metrics.csv",
+                "claim": "mortality_excluded_scoreable_chemicals",
+                "value": str(expected["followup_ranking"]["mortality_excluded_scoreable"]),
+                "analysis_source": "R1 G3 g3_authoritative_numeric_freeze.json",
                 "site_source": "not displayed",
             },
         ]
@@ -239,7 +239,7 @@ def build_run_metadata(package_root: Path, site_root: Path | None) -> None:
 
 def should_checksum(relative: Path) -> bool:
     parts = set(relative.parts)
-    if parts.intersection({".git", "__pycache__", "node_modules", ".next", "dist", ".wrangler"}):
+    if parts.intersection({".git", ".tmp", "__pycache__", "node_modules", ".next", "dist", ".wrangler"}):
         return False
     if len(relative.parts) >= 2 and relative.parts[:2] == ("public", "explorer"):
         return False

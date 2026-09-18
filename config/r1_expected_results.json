@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "analysis_version": "R1-strict-LOO-2026-09-18",
+  "tolerance": 1e-9,
+  "eligibility": {
+    "eligible_records": 426588,
+    "eligible_contexts": 2026,
+    "strict_loo_contexts": 1613,
+    "n5_diagnostic_contexts": 413,
+    "candidate_species": 2144
+  },
+  "national_top20": [
+    "Gastrophryne carolinensis",
+    "Neocloeon triangulifer",
+    "Hyalella azteca",
+    "Daphnia ambigua",
+    "Daphnia magna",
+    "Ceriodaphnia dubia",
+    "Daphnia pulex",
+    "Daphnia carinata",
+    "Gammarus fasciatus",
+    "Gammarus lacustris",
+    "Moina macrocopa",
+    "Gammarus pulex",
+    "Paratya australiensis",
+    "Gammarus pseudolimnaeus",
+    "Ceriodaphnia reticulata",
+    "Dugesia japonica",
+    "Chironomus dilutus",
+    "Daphnia similis",
+    "Echinogammarus tibaldii",
+    "Gammarus fossarum"
+  ],
+  "fixed_x95_sequence_expected_capture": {
+    "0.95": 0.3377643309990005,
+    "0.9": 0.6240965136220257,
+    "0.8": 0.8877548283207125
+  },
+  "panel_size_checkpoints": [
+    {"evaluation_target": 0.95, "panel_size": 1, "expected_capture": 0.0950389389703015},
+    {"evaluation_target": 0.95, "panel_size": 5, "expected_capture": 0.3377643309990005},
+    {"evaluation_target": 0.95, "panel_size": 10, "expected_capture": 0.5044113657739119},
+    {"evaluation_target": 0.95, "panel_size": 20, "expected_capture": 0.6712077124278809},
+    {"evaluation_target": 0.9, "panel_size": 1, "expected_capture": 0.2241698603308986},
+    {"evaluation_target": 0.9, "panel_size": 5, "expected_capture": 0.6240965136220257},
+    {"evaluation_target": 0.9, "panel_size": 10, "expected_capture": 0.8037351637820873},
+    {"evaluation_target": 0.9, "panel_size": 20, "expected_capture": 0.9162218610897321},
+    {"evaluation_target": 0.8, "panel_size": 1, "expected_capture": 0.4494116943045675},
+    {"evaluation_target": 0.8, "panel_size": 5, "expected_capture": 0.8877548283207125},
+    {"evaluation_target": 0.8, "panel_size": 10, "expected_capture": 0.9709603612889612},
+    {"evaluation_target": 0.8, "panel_size": 20, "expected_capture": 0.9943098068620642}
+  ],
+  "dependence": {
+    "0.95": 0.1324669416086028,
+    "0.9": 0.1194522000576604,
+    "0.8": 0.1174459102122268
+  },
+  "available_member_validation": {
+    "n": 115,
+    "spearman_rho": 0.8472895131381678,
+    "fully_observed_top5_rows": 0
+  },
+  "followup_ranking": {
+    "all_ranked_chemicals": 639,
+    "mortality_excluded_scoreable": 145,
+    "mortality_excluded_not_scoreable": 494
+  },
+  "regional": {
+    "supported_states": 32,
+    "mean_localized_expected_capture": 0.14252235889057618,
+    "mean_national_expected_capture": 0.0750165660312969,
+    "mean_gain_percentage_points": 6.7505792859279286,
+    "max_gain_state": "CT",
+    "max_gain_percentage_points": 10.16026314743147,
+    "fallback_states": {"PA": 1, "TN": 1, "WV": 1}
+  }
+}

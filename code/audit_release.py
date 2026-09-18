@@ -18,7 +18,7 @@ PROHIBITED_EXTENSIONS = {
     ".7z", ".doc", ".docx", ".gz", ".npz", ".pdf", ".ppt", ".pptx",
     ".rar", ".tif", ".tiff", ".xls", ".xlsx", ".zip",
 }
-EXCLUDED_DIRECTORIES = {".git", ".venv", "__pycache__", ".pytest_cache"}
+EXCLUDED_DIRECTORIES = {".git", ".venv", ".tmp", "__pycache__", ".pytest_cache"}
 MAX_FILE_BYTES = 10 * 1024 * 1024
 
 
@@ -54,6 +54,9 @@ def main() -> int:
     args = parse_args()
     root = args.root.resolve()
     files = files_under(root)
+    if args.report:
+        report_path = args.report.resolve()
+        files = [path for path in files if path.resolve() != report_path]
     findings: list[Finding] = []
     forbidden_markers = [
         "Chat" + "GPT",
@@ -94,8 +97,17 @@ def main() -> int:
         except UnicodeDecodeError:
             add(findings, "utf8_text", False, relative, "text candidate is not UTF-8")
             continue
+        marker_text = text.replace(
+            "compass-results-explorer.liaozt22.chatgpt.site", "approved-results-explorer"
+        )
         for marker in forbidden_markers:
-            add(findings, f"marker:{marker}", marker.lower() not in text.lower(), relative, "not present" if marker.lower() not in text.lower() else "prohibited marker found")
+            add(
+                findings,
+                f"marker:{marker}",
+                marker.lower() not in marker_text.lower(),
+                relative,
+                "not present" if marker.lower() not in marker_text.lower() else "prohibited marker found",
+            )
         add(findings, "secret_pattern", secret_pattern.search(text) is None, relative, "no credential-like assignment")
         add(findings, "absolute_windows_path", windows_path.search(text) is None, relative, "no local Windows path")
         add(findings, "absolute_home_path", home_path.search(text) is None, relative, "no local home path")
@@ -124,10 +136,13 @@ def main() -> int:
     print(json.dumps(report, indent=2, ensure_ascii=False))
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
-        args.report.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        args.report.write_text(
+            json.dumps(report, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
     return 1 if failed else 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

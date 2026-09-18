@@ -1,4 +1,9 @@
-# Frozen analysis record
+# Base v16.5 frozen analysis record (historical)
+
+This file records the analysis baseline from which the R1 modules were run. It
+is not the current release result ledger. See `docs/r1_revision_workflow.md`,
+`config/r1_expected_results.json`, and the two R1 validation reports for the
+current strict-LOO release.
 
 ## Identity
 
@@ -50,4 +55,3 @@ Regional localization is fixed at `x = 0.95`. Thirty-two states meet the minimum
 - SI Figures S1–S7: source `src/build_si_figures.py` and the synchronized SI manifests; code not copied into this core-only package.
 
 The public equivalent version record is completed by `outputs/source_manifest_sha256.csv`, `outputs/key_output_manifest_sha256.csv`, and `outputs/run_metadata.json`.
-

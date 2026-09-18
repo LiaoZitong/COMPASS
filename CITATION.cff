@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "If you use the COMPASS code, cite the associated manuscript and archived software release."
-title: "COMPASS core reproducibility code"
+message: "If you use the COMPASS code, cite the associated manuscript and the tagged software release."
+title: "COMPASS R1 core reproducibility code"
 type: software
-version: 0.1.0-draft
-date-released: 2026-08-08
+version: 1.0.0
+date-released: 2026-09-18
 authors:
   - family-names: Liao
     given-names: Zitong
@@ -19,14 +19,18 @@ authors:
     given-names: Yarong
   - family-names: Wang
     given-names: Yuming
+  - family-names: Zhou
+    given-names: Xuan
   - family-names: Ding
     given-names: Ren
   - family-names: Hu
     given-names: Hong-Ying
 license: LicenseRef-Proprietary
 abstract: >-
-  Core code for selecting protection-oriented aquatic sentinel panels from
-  censored ecotoxicity evidence and frozen national and regional analysis inputs.
+  Core code for selecting complementary aquatic sentinel panels from censored
+  ecotoxicity evidence, including the R1 strict focal-species leave-one-out,
+  dependence, available-member, follow-up-ranking, and localization analyses.
+repository-code: "https://github.com/LiaoZitong/COMPASS"
 keywords:
   - aquatic ecotoxicology
   - sentinel species

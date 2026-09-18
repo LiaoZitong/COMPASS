@@ -1,16 +1,26 @@
 # Local run record
 
-Validation host: native Windows, Python 3.11.9 from the source project's controlled `.venv`. The package itself remains environment-neutral and records exact dependencies under `config/`.
+Validation host: native Windows, Python 3.11.9 from the controlled analysis
+environment. All task-created caches and temporary outputs stayed below the
+COMPASS package root.
 
 | Command class | Result |
 |---|---|
-| `python -m compileall` for code, tests, and site scripts | pass |
-| `python -m unittest discover -s tests -v` | 8 tests passed |
-| `python code/run_analysis.py --mode full --dry-run --seed 20260622` | all stages 01–22 resolved in semantic order |
-| `python code/validate_inputs.py --level all` | eight external inputs absent as expected in the data-free package |
-| `python code/validate_results.py --profile release --site-data ...` | 51/51 checks passed against frozen v16.5 outputs and the complete site export |
-| `python code/audit_release.py --profile private` | pass, zero failures |
-| `python scripts/validate_site.py --profile local` | 34/34 checks passed |
-| `node scripts/browser_qa.js` with bundled Playwright and Edge | 10 screenshots; zero browser errors |
+| Python compilation for public code and tests | pass |
+| Base `unittest` suite | 8/8 pass |
+| R1 AP01/AP02/AP03A/AP03B/AP04/AP05/G3 assertion entry points | 13/13 pass |
+| `run_revision_analysis.py --dry-run` | 7/7 packages resolved in the frozen order |
+| `validate_revision_results.py` against approved R1 gates | 41/41 pass |
+| R1 Explorer export plus cross-package validation | 47/47 pass |
+| `audit_release.py --profile public` | pass, zero failures |
 
-The independent package is versioned in Git, while source/output provenance remains recorded through `release/source_manifest_sha256.csv`, `release/key_output_manifest_sha256.csv`, and `release/checksums.sha256`. No production analysis stage was rerun because the requested GitHub deliverable excludes all inputs and result data; the site export was regenerated from the existing frozen v16.5 results.
+The computationally intensive R1 analyses were not rerun during packaging: the
+author-approved outputs had already been generated in the required dependency
+order. Release validation reads the completed gates, source tables, matrices,
+and integrated numerical freeze, while the data-free tests exercise the key
+mathematical and routing contracts.
+
+The package is versioned in Git; base and R1 provenance remain recorded through
+the source/output manifests, machine-readable validation reports, and
+`release/checksums.sha256`. The Explorer export is regenerated from the approved
+R1 strict-LOO state and is validated before site deployment.

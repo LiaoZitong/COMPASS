@@ -1,4 +1,8 @@
-# Frozen-result consistency report
+# Base v16.5 frozen-result consistency report (historical)
+
+This report preserves the pre-R1 v16.5 cross-package audit. The current R1
+strict-LOO release is governed by `docs/r1_result_validation_report.json` and
+`docs/r1_site_validation_report.json`.
 
 The frozen source analysis and the independent static-site export agree on all 41 programmed scientific and cross-package checks at an absolute tolerance of `1e-9`.
 

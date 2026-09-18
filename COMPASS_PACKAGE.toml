@@ -1,10 +1,11 @@
 schema_version = 1
-package_version = "0.2.0"
-analysis_version = "v16.5"
-site_version = "0.2.0"
+package_version = "1.0.0"
+analysis_version = "R1-strict-LOO-2026-09-18"
+base_analysis_version = "v16.5"
+site_version = "1.0.0"
 data_freeze_date = "2026-08-02"
-manuscript_source_version = "2026-07-22"
-supporting_information_source_version = "2026-07-21"
+manuscript_source_version = "R1-2026-09-18"
+supporting_information_source_version = "R1-2026-09-18"
 pipeline_seed = 20260622
 primary_sequence_target = 0.95
-release_status = "private-review"
+release_status = "public-source-release"

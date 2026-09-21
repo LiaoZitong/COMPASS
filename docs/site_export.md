@@ -33,8 +33,10 @@ Example:
   --site-data .\outputs\site_data
 ```
 
-Copy the complete generated directory to the independent site package, build
-and validate the site, push that exact site source state, then save and deploy
-the matching Sites version. The export records source hashes, the Git commit,
-the GitHub release URL, and a combined R1 source-analysis identifier. The DOI
-field remains null unless a real archival DOI has been returned and verified.
+Copy the complete generated directory to `site/explorer/site_data/`, validate
+the static application locally, and commit the matching `site/` snapshot. The
+GitHub Pages workflow publishes `site/` at
+https://liaozitong.github.io/COMPASS/explorer/. The export records source
+hashes, the Git commit, the GitHub release URL, and a combined R1
+source-analysis identifier. The DOI field remains null unless a real archival
+DOI has been returned and verified.

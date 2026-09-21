@@ -26,6 +26,8 @@ outputs/*.json
 
 # Generated site and release archives
 site_data/
+!site/explorer/site_data/
+!site/explorer/site_data/**
 public_or_dist/
 *.zip
 *.tar.gz

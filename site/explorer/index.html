@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="COMPASS Interactive Results Explorer for frozen aquatic sentinel-panel research outputs.">
+  <title>COMPASS Interactive Results Explorer</title>
+  <link rel="canonical" href="https://liaozitong.github.io/COMPASS/explorer/">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <p class="eyebrow">Research companion site</p>
+        <h1>COMPASS Interactive Results Explorer</h1>
+        <p class="subtitle">R1 strict-LOO national and regional aquatic sentinel-panel outputs</p>
+      </div>
+      <div class="version-chip" id="header-version">Loading version…</div>
+    </div>
+  </header>
+
+  <div class="scope-banner" role="note">
+    This site presents precomputed research outputs from the frozen COMPASS analysis. It does not execute the full COMPASS model, generate regulatory SSDs, replace chemical-specific toxicity testing, or provide real-time risk assessments.
+  </div>
+
+  <nav class="section-nav" aria-label="Explorer sections">
+    <button class="nav-button active" data-section="overview">Overview</button>
+    <button class="nav-button" data-section="national">National sequence</button>
+    <button class="nav-button" data-section="regional">Regional localization</button>
+    <button class="nav-button" data-section="catalog">Species catalog</button>
+    <button class="nav-button" data-section="methods">Methods &amp; data</button>
+    <button class="nav-button" data-section="version">Version &amp; citation</button>
+  </nav>
+
+  <main id="main-content" class="main-shell">
+    <div id="load-error" class="error-panel hidden" role="alert"></div>
+
+    <section id="section-overview" class="page-section active" aria-labelledby="overview-title">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Protection-oriented screening</p>
+          <h2 id="overview-title">Explore one frozen national sequence and its localized applications</h2>
+          <p>COMPASS uses censored protective-apical evidence to estimate measured-tail probabilities and assemble compact species panels with complementary chemical coverage. The explorer presents the frozen Top-20, a complete 2,144-species continuation with cumulative expected capture for every prefix, evidence volume, and state-level localization.</p>
+          <p class="boundary-copy">The national sequence was constructed at the lower-5% target and is evaluated at broader targets without reoptimizing panel membership.</p>
+        </div>
+        <aside class="hero-aside">
+          <h3>Frozen analysis</h3>
+          <dl class="metadata-list">
+            <div><dt>Analysis</dt><dd id="overview-analysis">—</dd></div>
+            <div><dt>Data freeze</dt><dd id="overview-freeze">—</dd></div>
+            <div><dt>Sequence target</dt><dd>Lower-5%</dd></div>
+            <div><dt>Regional target</dt><dd>Lower-5%</dd></div>
+          </dl>
+        </aside>
+      </div>
+
+      <div class="metric-grid" aria-label="Key frozen results">
+        <article class="metric-card"><span class="metric-label">Top-5 at lower-5%</span><strong id="metric-lower5">—</strong><span>expected capture</span></article>
+        <article class="metric-card"><span class="metric-label">Same Top-5 at lower-10%</span><strong id="metric-lower10">—</strong><span>expected capture</span></article>
+        <article class="metric-card"><span class="metric-label">Same Top-5 at lower-20%</span><strong id="metric-lower20">—</strong><span>expected capture</span></article>
+        <article class="metric-card"><span class="metric-label">Localized states</span><strong id="metric-states">—</strong><span>supported panels</span></article>
+      </div>
+
+      <div class="card download-card">
+        <div>
+          <h3>Frozen downloads</h3>
+          <p>Download full-precision CSV files generated in the same export as the page data.</p>
+        </div>
+        <div class="download-links">
+          <a class="button-link" href="site_data/downloads/national_sequence.csv" download>National sequence</a>
+          <a class="button-link" href="site_data/downloads/panel_size_coverage.csv" download>Coverage curves</a>
+          <a class="button-link" href="site_data/downloads/species_catalog.csv" download>Species catalog</a>
+          <a class="button-link" href="site_data/downloads/regional_summary.csv" download>Regional summary</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="section-national" class="page-section" aria-labelledby="national-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">National Sequence Explorer</p>
+          <h2 id="national-title">Complete national ordering and cumulative expected capture</h2>
+        </div>
+        <button class="secondary-button" id="download-current-national">Download current view</button>
+      </div>
+      <p class="boundary-copy">Ranks 1–20 reproduce the frozen R1 strict focal-species leave-one-out analysis. Ranks 21–2,144 are a deterministic post hoc continuation under the same R1 objective; they support exploration but have not been validated as equivalently resolved biological rankings.</p>
+
+      <div class="controls-grid">
+        <label>Evaluation target
+          <select id="national-target">
+            <option value="lower-5%">Lower-5%</option>
+            <option value="lower-10%">Lower-10%</option>
+            <option value="lower-20%">Lower-20%</option>
+          </select>
+        </label>
+        <label>Panel size: <output id="panel-size-output">5</output>
+          <input id="panel-size" type="range" min="1" max="2144" value="5">
+        </label>
+        <label>Search species
+          <input id="national-search" type="search" placeholder="Scientific name">
+        </label>
+        <label>Taxonomic class
+          <select id="national-class"><option value="">All classes</option></select>
+        </label>
+        <label>Protective evidence volume
+          <select id="national-support"><option value="">All evidence volumes</option></select>
+        </label>
+      </div>
+
+      <div class="support-guide" role="note">
+        <strong>How evidence volume is defined:</strong> the tier counts distinct valid protective analysis contexts for a species: Very limited = 1–4, Limited = 5–19, Moderate = 20–49, and Strong = 50 or more. The adjacent “Chemicals” value is the number of unique chemicals represented. These fields describe evidence volume; sensitivity is evaluated separately by the model.
+      </div>
+
+      <div class="metric-grid compact">
+        <article class="metric-card"><span class="metric-label">Selected prefix</span><strong id="national-k">Top-5</strong><span>fixed sequence</span></article>
+        <article class="metric-card"><span class="metric-label">Expected capture</span><strong id="national-capture">—</strong><span id="national-target-label">lower-5%</span></article>
+        <article class="metric-card"><span class="metric-label">Added at this step</span><strong class="species-metric" id="national-added">—</strong><span>scientific name</span></article>
+      </div>
+
+      <div class="catalog-summary"><strong id="national-count">—</strong> ranked species match the current filters.</div>
+      <div class="table-wrap" tabindex="0" aria-label="Complete national sequence table">
+        <table>
+          <thead><tr><th>Rank</th><th>Species</th><th>Taxonomy</th><th>Protective evidence volume</th><th>Contexts</th><th>Chemicals</th><th>Greedy gain</th><th>Cumulative expected capture</th><th>Scope</th></tr></thead>
+          <tbody id="national-table-body"></tbody>
+        </table>
+      </div>
+      <div class="pagination" aria-label="National ranking pages">
+        <button class="secondary-button" id="national-prev">Previous</button>
+        <span id="national-page" aria-live="polite">—</span>
+        <button class="secondary-button" id="national-next">Next</button>
+        <form class="page-jump" id="national-page-jump" aria-label="Jump to a national ranking page">
+          <label for="national-page-input">Go to page</label>
+          <input id="national-page-input" type="number" min="1" step="1" inputmode="numeric" autocomplete="off">
+          <button class="secondary-button" id="national-page-go" type="submit">Go</button>
+        </form>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-heading">
+          <div><h3>Full-sequence cumulative capture</h3><p>All 2,144 prefixes of one fixed sequence; the panel-size axis is logarithmic so early and late prefixes remain visible.</p></div>
+        </div>
+        <div id="coverage-chart" class="coverage-chart" role="img" aria-label="Expected capture by panel size and measured-tail target"></div>
+      </div>
+    </section>
+
+    <section id="section-catalog" class="page-section" aria-labelledby="catalog-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Species Catalog</p>
+          <h2 id="catalog-title">Protective evidence volume across the formal candidate universe</h2>
+        </div>
+        <button class="secondary-button" id="download-current-catalog">Download current view</button>
+      </div>
+      <p>Counts summarize observed protective evidence volume and occurrence relevance. All 2,144 formal-binomial candidates have a national order; species with limited evidence remain visible and are marked for confirmatory testing.</p>
+
+      <div class="controls-grid">
+        <label>Search species
+          <input id="catalog-search" type="search" placeholder="Scientific name">
+        </label>
+        <label>Taxonomic class
+          <select id="catalog-class"><option value="">All classes</option></select>
+        </label>
+        <label>Protective evidence volume
+          <select id="catalog-support"><option value="">All evidence volumes</option></select>
+        </label>
+        <label>Sequence status
+          <select id="catalog-status">
+            <option value="">All species</option>
+            <option value="top5">Top-5</option>
+            <option value="top10">Top-10</option>
+            <option value="top20">Frozen Top-20</option>
+            <option value="extended">Extended ranks 21–2,144</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="support-guide" role="note">
+        <strong>Evidence-volume tiers:</strong> Very limited = 1–4 protective contexts; Limited = 5–19; Moderate = 20–49; Strong = ≥50. “Protective chemicals” counts unique chemicals and may be smaller than the context count.
+      </div>
+
+      <div class="catalog-summary"><strong id="catalog-count">—</strong> species match the current filters.</div>
+      <div class="table-wrap" tabindex="0" aria-label="Species catalog table">
+        <table>
+          <thead><tr><th>Species</th><th>National rank</th><th>Taxonomy</th><th>Protective contexts</th><th>Protective chemicals</th><th>Warning contexts</th><th>Eligible states</th><th>Protective evidence volume</th><th>Note</th></tr></thead>
+          <tbody id="catalog-table-body"></tbody>
+        </table>
+      </div>
+      <div class="pagination" aria-label="Species catalog pages">
+        <button class="secondary-button" id="catalog-prev">Previous</button>
+        <span id="catalog-page" aria-live="polite">—</span>
+        <button class="secondary-button" id="catalog-next">Next</button>
+        <form class="page-jump" id="catalog-page-jump" aria-label="Jump to a species catalog page">
+          <label for="catalog-page-input">Go to page</label>
+          <input id="catalog-page-input" type="number" min="1" step="1" inputmode="numeric" autocomplete="off">
+          <button class="secondary-button" id="catalog-page-go" type="submit">Go</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="section-regional" class="page-section" aria-labelledby="regional-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Regional Localization Explorer</p>
+          <h2 id="regional-title">State-priority weighting at the lower-5% target</h2>
+        </div>
+        <a class="button-link secondary" href="site_data/downloads/regional_sequences.csv" download>Download all sequences</a>
+      </div>
+      <p class="boundary-copy">Regional panels were optimized at the lower-5% target.</p>
+
+      <div class="state-map-panel">
+        <div class="map-heading">
+          <div>
+            <h3>Select a state on the map</h3>
+            <p>Click a state or use the menu below. Hover or focus a state to view its Top-5 basis and species.</p>
+          </div>
+          <div class="map-legend" aria-label="Map legend">
+            <span><i class="legend-swatch selected"></i>Selected state</span>
+          </div>
+        </div>
+        <div id="state-map-wrap" class="state-map-wrap">
+          <div id="state-map" class="state-map" role="group" aria-label="Interactive map of the 50 U.S. states and District of Columbia"></div>
+          <div id="state-map-tooltip" class="state-map-tooltip hidden" role="tooltip"></div>
+        </div>
+        <p class="map-source">Boundaries: U.S. Census Bureau 2024 1:500,000 cartographic state boundaries. Alaska and Hawaii are shown as insets.</p>
+      </div>
+
+      <label class="state-selector">State or region
+        <select id="state-select"></select>
+      </label>
+      <div id="regional-status" class="status-panel"></div>
+
+      <div id="regional-supported">
+        <div class="metric-grid compact">
+          <article class="metric-card"><span class="metric-label">Localized Top-5</span><strong id="regional-localized">—</strong><span>expected capture</span></article>
+          <article class="metric-card"><span class="metric-label">National Top-5</span><strong id="regional-national">—</strong><span>same state weights</span></article>
+          <article class="metric-card"><span class="metric-label">Absolute gain</span><strong id="regional-gain">—</strong><span>percentage points</span></article>
+          <article class="metric-card"><span class="metric-label">Overlap</span><strong id="regional-overlap">—</strong><span>of five species</span></article>
+          <article class="metric-card"><span class="metric-label">Eligible chemicals</span><strong id="regional-chemicals">—</strong><span>priority set</span></article>
+        </div>
+
+        <div class="panel-comparison">
+          <article class="card"><h3>Localized Top-5</h3><ol id="localized-top5"></ol></article>
+          <article class="card"><h3>Fixed national Top-5</h3><ol id="national-top5"></ol></article>
+        </div>
+        <div class="table-wrap" tabindex="0" aria-label="Complete localized sequence">
+          <table>
+            <thead><tr><th>Rank</th><th>Species</th><th>Candidate status</th><th>Species relevance</th><th>Mean tail probability</th><th>Mean reliability</th><th>Direct-support chemicals</th></tr></thead>
+            <tbody id="regional-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="section-methods" class="page-section prose-section" aria-labelledby="methods-title">
+      <p class="eyebrow">Methods &amp; Data</p>
+      <h2 id="methods-title">What the explorer shows</h2>
+      <div class="prose-grid">
+        <article class="card"><h3>Measured-tail probability</h3><p>The calibrated probability that a species threshold lies within a measured lower-tail target for the stated chemical and protective effect context. Exact and bounded observations enter a censored likelihood.</p></article>
+        <article class="card"><h3>Expected capture</h3><p>The chemical-priority-weighted probability that at least one selected panel member occupies the working measured lower tail. Values are stored as probabilities and displayed as percentages.</p></article>
+        <article class="card"><h3>Complementarity</h3><p>Species are combined because their supported chemical domains can complement one another. A species' incremental gain describes its addition to the fixed sequence at the lower-5% target.</p></article>
+        <article class="card"><h3>National sequence</h3><p>One U.S.-wide sequence is selected at the lower-5% target from R1 strict focal-species leave-one-out probabilities. Ranks 1–20 reproduce the frozen R1 analysis; all 2,144 fixed-sequence prefixes are evaluated at the lower-5%, lower-10%, and lower-20% targets with the R1 target-specific working-dependence model.</p></article>
+        <article class="card"><h3>Protective evidence volume</h3><p>Evidence-volume bands count distinct valid protective analysis contexts: 1–4, 5–19, 20–49, or at least 50. The band describes how much direct evidence supports a species estimate; sensitivity is evaluated separately by the model.</p></article>
+        <article class="card"><h3>Regional localization</h3><p>State-priority chemical weights are combined with soft species relevance and method-support weights. Occurrence/NAS evidence informs relevance and follow-up needs.</p></article>
+        <article class="card"><h3>Top5-apical</h3><p>The minimum identified protective-apical threshold among available fixed Top-5 members is compared with measured full-data reference HC5 contexts to evaluate rank information.</p></article>
+        <article class="card"><h3>Chemical follow-up</h3><p>The fixed-panel measured-tail probability score identifies chemicals for additional evidence acquisition. Follow-up prioritization is interpreted within its evidence and chemical context.</p></article>
+        <article class="card"><h3>Warning endpoints</h3><p>Heartbeat, behavior, feeding, avoidance, and physiological evidence provide response-window and rank signals that guide apical confirmation.</p></article>
+      </div>
+
+      <div class="card data-boundary">
+        <h3>Data boundary</h3>
+        <p>Primary inputs include large public datasets such as EPA ECOTOX and other provider-hosted resources. Their size and provider distribution arrangements make them unsuitable for mirroring in the GitHub code repository, so users can obtain them from the official sources listed in the code package and prepare the documented local inputs. This explorer contains the compact frozen derived tables needed for its precomputed modules.</p>
+      </div>
+    </section>
+
+    <section id="section-version" class="page-section prose-section" aria-labelledby="version-title">
+      <p class="eyebrow">Version &amp; Citation</p>
+      <h2 id="version-title">Frozen release metadata</h2>
+      <div class="card">
+        <dl class="metadata-list wide" id="version-metadata"></dl>
+      </div>
+      <div class="card">
+        <h3>Manuscript</h3>
+        <p id="manuscript-title">—</p>
+        <p><strong>Authors:</strong> <span id="author-list">—</span></p>
+      </div>
+      <div class="card">
+        <h3>Release identifiers</h3>
+        <p>GitHub release: <a id="github-release" href="https://github.com/LiaoZitong/COMPASS/releases/tag/v1.0.1">COMPASS v1.0.1</a></p>
+        <p>Zenodo DOI: <span id="zenodo-doi">No DOI has been assigned to this release.</span></p>
+        <p>License: <span id="site-license">Publicly viewable source; all rights reserved.</span></p>
+      </div>
+      <div class="card">
+        <h3>Source integrity</h3>
+        <p>Combined source-analysis identifier:</p>
+        <code id="source-identifier">—</code>
+        <p><a href="site_data/downloads_manifest.json">View generated-file checksums</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Research companion site — precomputed results only.</p>
+    <p>Scope: protection-oriented research screening with follow-up evidence requirements.</p>
+  </footer>
+  <script src="app.js" defer></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3e6692439d47e62',t:'MTc4OTk2NTgyNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

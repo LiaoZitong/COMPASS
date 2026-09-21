@@ -2,7 +2,7 @@
 
 COMPASS is a research workflow for selecting compact aquatic sentinel panels from sparse and imbalanced toxicity evidence. It estimates measured-tail probabilities, selects a fixed national sequence at the lower-5% target, evaluates the same sequence at broader lower-tail targets, localizes panels with state-priority chemical and species-relevance weights, and identifies evidence-acquisition priorities.
 
-This repository is a compact, code-only reproducibility package for the formal revision release. It contains the base v16.5 analysis, the ordered reviewer-requested strict focal-species leave-one-out analysis layer, the aligned profile/MNAR robustness stage, and the figure/site export code needed to reproduce the approved results after the required inputs are obtained separately. Large public and provider-hosted source datasets, including EPA ECOTOX, are not mirrored in the repository; users can obtain them from the official sources documented below.
+This repository is a compact reproducibility package for the formal revision release. It contains the base v16.5 analysis, the ordered reviewer-requested strict focal-species leave-one-out analysis layer, the aligned profile/MNAR robustness stage, the figure/site export code needed to reproduce the approved results after the required inputs are obtained separately, and the static files served by the public Results Explorer. Large public and provider-hosted source datasets, including EPA ECOTOX, are not mirrored in the repository; users can obtain them from the official sources documented below.
 
 > The repository does not redistribute the full ECOTOX-derived or other third-party raw datasets. Full-data execution requires users to obtain these data from the cited providers and place them in the expected local directories.
 
@@ -21,6 +21,7 @@ The outputs support protection-oriented screening and follow-up planning within 
 - `code/validate_inputs.py`: lightweight schema and value checks;
 - `code/validate_results.py`: release-blocking scientific checkpoints;
 - `code/export_site_data.py`: one-way export of frozen results for the static explorer;
+- `site/`: the static COMPASS Results Explorer deployed through GitHub Pages;
 - `config/`: dependency locks, seeds, targets, and expected checkpoints;
 - `data/`: source and placement documentation only;
 - `tests/`: base and R1 data-free tests using temporary synthetic fixtures;
@@ -28,7 +29,7 @@ The outputs support protection-oriented screening and follow-up planning within 
 
 Local verification results are summarized in [`docs/release_validation_report.md`](docs/release_validation_report.md), with the scientific crosswalk in [`docs/result_consistency_report.md`](docs/result_consistency_report.md).
 
-The package excludes third-party acquisition/ETL utilities, manuscript and SI assembly, Word templates, confidential review material, historical runs, caches, logs, and all real data/results.
+The package excludes third-party acquisition/ETL utilities, manuscript and SI assembly, Word templates, confidential review material, historical runs, caches, logs, and full analysis workspaces. The only precomputed outputs included are the frozen browser tables and downloads required by the public Explorer.
 
 ## Reproduction levels
 
@@ -144,7 +145,7 @@ The browser never executes Equations 1–5 or reoptimizes a panel. Export the fr
 .\.venv\Scripts\python.exe .\code\revision_r1\export_r1_site_data.py --analysis-root . --revision-root .\results\revision_r1 --out .\outputs\site_data --git-commit <full-commit-sha> --github-release https://github.com/LiaoZitong/COMPASS/releases/tag/v1.0.1
 ```
 
-The export contains the frozen R1 Top-20 sequence, a scope-labeled continuation through all 2,144 candidates, cumulative expected capture for all three targets at every prefix, all 50 states plus the District of Columbia, and Census-derived map geometry. The independent site package consumes that directory. See [`docs/site_export.md`](docs/site_export.md).
+The export contains the frozen R1 Top-20 sequence, a scope-labeled continuation through all 2,144 candidates, cumulative expected capture for all three targets at every prefix, all 50 states plus the District of Columbia, and Census-derived map geometry. The checked-in static snapshot is published at the [COMPASS Results Explorer](https://liaozitong.github.io/COMPASS/explorer/). See [`docs/site_export.md`](docs/site_export.md).
 
 ## Tests
 
@@ -156,7 +157,7 @@ CI compiles the public Python sources, runs data-free tests, and scans the track
 
 ## Data availability
 
-The GitHub code package does not mirror source or analysis datasets. The principal source datasets, including EPA ECOTOX, are available from their official providers; access links, provenance dates, and local input contracts are documented in [`data/README.md`](data/README.md). The versioned source supporting this revision is released at [github.com/LiaoZitong/COMPASS](https://github.com/LiaoZitong/COMPASS), with the current snapshot identified by tag `v1.0.1` and its full commit SHA. No archival DOI is claimed unless and until a separate archive returns a verified identifier. The synchronized statement is in [`docs/data_availability_statement.md`](docs/data_availability_statement.md).
+The GitHub code package does not mirror source or full analysis datasets. The principal source datasets, including EPA ECOTOX, are available from their official providers; access links, provenance dates, and local input contracts are documented in [`data/README.md`](data/README.md). The versioned source supporting this revision is released at [github.com/LiaoZitong/COMPASS](https://github.com/LiaoZitong/COMPASS) as release [`v1.0.1`](https://github.com/LiaoZitong/COMPASS/releases/tag/v1.0.1). The companion [COMPASS Results Explorer](https://liaozitong.github.io/COMPASS/explorer/) serves the frozen precomputed browser outputs. No archival DOI is claimed unless and until a separate archive returns a verified identifier. The synchronized statement is in [`docs/data_availability_statement.md`](docs/data_availability_statement.md).
 
 ## Known limitations
 
